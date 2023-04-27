@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TimeWizard;
+using TimeWizard.Core;
 
 // Currently bugged
 public class PositionalStoreTest : MonoBehaviour, ISaveStore
 {
     public static readonly string Name = "PositionalStoreTest";
+    public SaveManager Manager => SaveManager.Instance;
 
     [Serializable]
     public class LocationSaveState
@@ -26,8 +28,10 @@ public class PositionalStoreTest : MonoBehaviour, ISaveStore
     public void LoadChunkData(string chunkName, ChunkDataSegment info)
     {
         var state = info.As<LocationSaveState>();
-        if(state != null)
+        if(state != null) {
             _lastPosition = state.LastPosition;
+            transform.position = _lastPosition;
+        }
     }
 
     public List<SaveState> FetchSaveStates()
@@ -46,8 +50,12 @@ public class PositionalStoreTest : MonoBehaviour, ISaveStore
 
     void Awake() {
         _lastPosition = transform.position;
-        ChunkTest controller = GameObject.Find("SavesInitializer").GetComponent<ChunkTest>();
-        controller.AddStore(this);
+        Manager.Register(this);
+    }
+
+    void OnDestroy()
+    {
+        Manager.Unregister(this);
     }
 
     // Start is called before the first frame update

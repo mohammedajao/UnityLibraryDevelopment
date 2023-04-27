@@ -23,17 +23,28 @@ namespace TimeWizard
         private SaveController _controller;
         private SaveContainer _saveContainer;
 
-        public SaveContext(string _saveId, SaveController controller, IRegistry<ISaveStore> storeRegistry)
+        public SaveManager Manager => SaveManager.Instance;
+
+        public SaveContext(string _saveId, SaveController controller)
         {
             _controller = controller;
             _saveContainer = new SaveContainer() { Name = _saveId };
-            storeRegistry.Register(this);
         }
 
         public Task<SaveContext> Create()
         {
             _controller.LoadSnapshot(_saveContainer);
             return Task.FromResult(this);
+        }
+
+        private void OnAwake()
+        {
+            Manager.Register(this);
+        }
+
+        private void OnDestroy()
+        {
+           Manager.Unregister(this);
         }
 
         public string GetIdentifier()

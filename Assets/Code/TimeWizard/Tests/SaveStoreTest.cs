@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TimeWizard;
+using TimeWizard.Core;
 
 public class SaveStoreTest : MonoBehaviour, ISaveStore
 {
     public static readonly string Name = "SaveStoreTest";
+
+    public SaveManager Manager => SaveManager.Instance;
 
     [Serializable]
     public class CountSaveState
@@ -43,8 +46,7 @@ public class SaveStoreTest : MonoBehaviour, ISaveStore
     }
 
     void Awake() {
-        ChunkTest controller = GameObject.Find("SavesInitializer").GetComponent<ChunkTest>();
-        controller.AddStore(this);
+        Manager.Register(this);
     }
 
     // Start is called before the first frame update
@@ -52,6 +54,11 @@ public class SaveStoreTest : MonoBehaviour, ISaveStore
     {
         // ChunkTest controller = GameObject.Find("SavesInitializer").GetComponent<ChunkTest>();
         // controller.AddStore(this); 
+    }
+
+    private void OnDestroy()
+    {
+        Manager.Unregister(this);
     }
 
     // Update is called once per frame

@@ -44,7 +44,6 @@ namespace TimeWizard.Persistence
                 Directory.CreateDirectory(saveFolderPath);
                 foreach (var saveChunk in chunks)
                 {
-                    Debug.Log($"FSL:: {saveFolderPath} {saveChunk} {saveChunk.Name}");
                     string scopedPath = Path.Combine(saveFolderPath, saveChunk.Name);
                     if(!Directory.Exists(scopedPath))
                     {

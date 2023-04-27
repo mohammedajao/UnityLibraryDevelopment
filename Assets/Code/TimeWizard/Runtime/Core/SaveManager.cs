@@ -44,7 +44,7 @@ namespace TimeWizard.Core
 
         public SaveContext GetSaveController(string saveId)
         {
-            return new SaveContext(saveId, controller, _storeRegistry);
+            return new SaveContext(saveId, controller);
         }
     
         // protected override void SingletonAwake() {
@@ -61,6 +61,7 @@ namespace TimeWizard.Core
         public void CaptureSnapshot(bool overwriteChunks = false) => controller.CaptureSnapshot(overwriteChunks);
         public void ApplySnapshot(string saveName) => controller.ApplySnapshot(new SaveContainer() { Name = saveName });
         public void LoadSnapshot(string saveName) => controller.LoadSnapshot(new SaveContainer() { Name = saveName });
+        public void UpdateSnapshot(Chunk[] saveChunks) => controller.UpdateSnapshot(saveChunks);
         public SaveContainer[] ListSaves() => _loader.ListSaves();
     }
 }

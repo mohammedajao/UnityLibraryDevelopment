@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using TimeWizard;
 using TimeWizard.Persistence;
@@ -10,12 +12,19 @@ namespace TimeWizard.Core
 {
     public class SaveController
     {
+        public event Action Saving;
+        public event Action Saved;
+
+        public bool IsLoading => _lock.CurrentCount == 0;
+
         private readonly ISaveLoader _loader;
 
         private readonly IRegistry<ISaveStore> _storeRegistry;
         private readonly IRegistry<ISaveInterpreter> _interpreterRegistry;
 
         private Chunk[] _snapshot;
+
+        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
 
         private Chunk[] ProcessInterpreters(Chunk[] saveChunks)
         {
@@ -46,6 +55,12 @@ namespace TimeWizard.Core
             {
                 interpreter.ProcessChunks(_snapshot);
             }
+        }
+
+        public void UpdateSnapshot(Chunk[] saveChunks)
+        {
+            _snapshot = saveChunks;
+            ProcessSnapshotUpdate();
         }
 
         public void CaptureSnapshot(bool overwriteChunks = false) // Adds the data of different stores to our global, area, and scene chunks
@@ -80,12 +95,16 @@ namespace TimeWizard.Core
         {
             if (_snapshot == null) return;
             Exception ex;
+            Saving?.Invoke();
             var snapshot = ProcessInterpreters(_snapshot); // Apply dirty chunks
+            _lock.Wait();
             if(_loader.TrySave(container.Name, snapshot, out ex))
             {
                 Debug.Log($"[TimeWizard] Successfully saved {container.Name}.");
                 ProcessSnapshotUpdate(); // Sync
+                Saved?.Invoke();
             }
+            _lock.Release();
             if(ex != null)
                 Debug.Log($"{ex}");
         }

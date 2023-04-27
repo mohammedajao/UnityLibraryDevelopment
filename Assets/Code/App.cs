@@ -51,27 +51,8 @@ public class App : UnitySingleton<App>
                 SaveContext Save = SaveService.GetSaveController(currentSnapshot.Snapshot.Title);
                 yield return Save.Create().AsIEnumerator();
                 SaveService.CaptureSnapshot(true);
-            } else {
-                SaveContainer viableSave = FindViableSave();
-                if(viableSave.Name != "") 
-                {
-                    currentSnapshot.Snapshot = new SaveSnapshotData() { Title = viableSave.Name };
-                }
-            }
-            SaveService.CaptureSnapshot(true);
+            };
         }
-    }
-
-    private SaveContainer FindViableSave()
-    {
-        SaveContainer[] savesList = SaveService.ListSaves();
-        if(savesList.Length == 0)
-        {
-            Debug.LogWarning("[TimeWizard] A save snapshot couldn't be found by the game. An attempt to use the latest save failed as no saves were found. A new save snapshot will be created.");
-            return new SaveContainer() { Name = System.Guid.NewGuid().ToString() };
-        }
-        var savesOrderedByUpdate = savesList.OrderByDescending(save => save.UpdatedAt).ToList();
-        return savesOrderedByUpdate[0];
     }
 
     public void NextScene()

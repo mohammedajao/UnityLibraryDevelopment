@@ -104,7 +104,7 @@ namespace TimeWizard.Persistence
             }
         }
 
-        public bool TryClearSave(string name, out Exception ex)
+        public bool TryClear(string name, out Exception ex)
         {
             EnsureWorkingDirectory();
             ex = null;

@@ -94,6 +94,8 @@ namespace TimeWizard.Core
 
             _snapshot = saveChunks.Select((pair) => pair.Value).ToArray();
 
+            AddRequiredChunks();
+
             foreach (var interpreter in _interpreterRegistry.List()) {
                 interpreter.ProcessChunks(_snapshot);
             }
@@ -118,6 +120,17 @@ namespace TimeWizard.Core
             _lock.Release();
             if(ex != null)
                 Debug.Log($"{ex}");
+        }
+
+        public void DeleteSnapshot(string name)
+        {
+            Exception ex;
+            _lock.Wait();
+            if(_loader.TryClear(name, out ex))
+            {
+                 Debug.Log($"[TimeWizard] Successfully deleted Save ({name}).");
+            }
+            _lock.Release();
         }
 
         public void LoadSnapshot(SaveContainer container)

@@ -43,25 +43,33 @@ namespace TimeWizard.UnityEditor
                 EditorGUILayout.BeginHorizontal();
                 if(GUILayout.Button("Reload"))
                 {
-                    if(currentSnapshot != null)
+                    if(currentSnapshot != null && !string.IsNullOrWhiteSpace(currentSnapshot.Snapshot.Title))
                     {
                         SaveContext Save = Manager.GetSaveController(currentSnapshot.Snapshot.Title);
                         Task.WaitAll(Save.Create());
                         Manager.CaptureSnapshot();
+                    } else {
+                        TimeWizardUtils.LogWarning("Reloading denied. No snapshot is currently captured. Use the interface to attempt to capture one.");
                     }
                 }
                 if(GUILayout.Button("Save"))
                 {
-                    if(currentSnapshot != null) {
+                    if(currentSnapshot != null && !string.IsNullOrWhiteSpace(currentSnapshot.Snapshot.Title)) {
                         Manager.ApplySnapshot(currentSnapshot.Snapshot.Title);
                         Manager.CaptureSnapshot();
                     } else {
-                        TimeWizardUtils.LogWarning("[TimeWizard] No snapshot is currently captured. Use the interface to attempt to capture one.");
+                        TimeWizardUtils.LogWarning("Saving denied. No snapshot is currently captured. Use the interface to attempt to capture one.");
                     }
                 }
                 if(GUILayout.Button("Delete"))
                 {
-
+                    if(currentSnapshot != null && !string.IsNullOrWhiteSpace(currentSnapshot.Snapshot.Title)) {
+                        Manager.DeleteSave(currentSnapshot.Snapshot.Title);
+                        currentSnapshot.Snapshot.Title = "";
+                        currentSnapshot = null;
+                    } else {
+                        TimeWizardUtils.LogWarning("Deletion denied. No snapshot is currently captured. Use the interface to attempt to capture one.");
+                    }
                 }
                 EditorGUILayout.EndHorizontal();
                 EditorGUILayout.Space();
@@ -73,14 +81,36 @@ namespace TimeWizard.UnityEditor
                 if(context != null)
                 {
                     currentSnapshot = context.GetComponent<SaveSnapshot>();
+                    if(string.IsNullOrWhiteSpace(currentSnapshot.Snapshot.Title))
+                    {
+                        currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
+                        TimeWizardUtils.Log($"Created new snapshot with ID {currentSnapshot.Snapshot.Title}");
+                    }
                 }
                 Manager.CaptureSnapshot();
             }
-            if(currentSnapshot != null) {
-                if(GUILayout.Button("Make snapshot"))
+            if(GUILayout.Button("Make snapshot"))
+            {
+                GameObject context = GameObject.Find("Context");
+                if(context == null)
                 {
-                    Manager.CaptureSnapshot();
+                    context = new GameObject();
+                    context.name = "Context";
+                    context.AddComponent<SaveSnapshot>();
                 }
+                currentSnapshot = context.GetComponent<SaveSnapshot>();
+                if(currentSnapshot == null)
+                {
+                    context.AddComponent<SaveSnapshot>();
+                    currentSnapshot = context.GetComponent<SaveSnapshot>();
+                    currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
+                    currentSnapshot = context.GetComponent<SaveSnapshot>();
+                }
+                currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
+                currentSnapshot = context.GetComponent<SaveSnapshot>();
+                Manager.CaptureSnapshot();
+            }
+            if(currentSnapshot != null) {
                 if(GUILayout.Button("Apply snapshot"))
                 {
                     SnapshotUpdate?.Invoke();

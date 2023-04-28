@@ -10,6 +10,7 @@ namespace TimeWizard.Persistence
     {
         bool TryLoad(string name, out Chunk[] chunks, out Exception ex);
         bool TrySave(string name, Chunk[] chunks, out Exception ex);
+        bool TryClear(string name, out Exception ex);
         SaveContainer[] ListSaves();
     }
 }

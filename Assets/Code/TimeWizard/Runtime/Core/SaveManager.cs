@@ -65,6 +65,7 @@ namespace TimeWizard.Core
         public void ApplySnapshot(string saveName) => controller.ApplySnapshot(new SaveContainer() { Name = saveName });
         public void LoadSnapshot(string saveName) => controller.LoadSnapshot(new SaveContainer() { Name = saveName });
         public void UpdateSnapshot(Chunk[] saveChunks) => controller.UpdateSnapshot(saveChunks);
+        public void DeleteSave(string saveName) => controller.DeleteSnapshot(saveName);
         public SaveContainer[] ListSaves() => _loader.ListSaves();
     }
 }

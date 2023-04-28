@@ -9,11 +9,6 @@ using TimeWizard.Core;
 using TimeWizard.Util;
 using TimeWizard;
 
-// Catch snapshot - IDK yet
-// Make Snapshot - Captures snapshot and changes of current stores and interpreters into window
-// Apply Snapshot - Applies changes made in window to world
-// Reload, Save, Delete - Affect actual files
-
 namespace TimeWizard.UnityEditor
 {
     public class TimeWizardWindow : EditorWindow
@@ -26,6 +21,7 @@ namespace TimeWizard.UnityEditor
         [SerializeField] private Chunk[] _chunks = new Chunk[0];
 
         private List<ITimeWizardInterpreter> _editorInterpreters = new List<ITimeWizardInterpreter>() {
+            new SaveMetadataInterpreter(),
             new ChunksListInterpreter()
         };
 
@@ -40,6 +36,7 @@ namespace TimeWizard.UnityEditor
             foreach(var i in _editorInterpreters)
             {
                 i.DrawInspectorGUI();
+                EditorGUILayout.Space();
             }  
 
             if(currentSnapshot != null) {
@@ -67,6 +64,7 @@ namespace TimeWizard.UnityEditor
 
                 }
                 EditorGUILayout.EndHorizontal();
+                EditorGUILayout.Space();
             }
             EditorGUILayout.BeginHorizontal();
             if(GUILayout.Button("Catch Snapshot"))
@@ -93,13 +91,11 @@ namespace TimeWizard.UnityEditor
 
         private void OnEnable()
         {
-            // Manager.CaptureSnapshot();
             foreach(var i in _editorInterpreters)
             {
                 Manager.Register(i);
                 i.OnEnable();
             }
-            // Manager.CaptureSnapshot();
         }
 
         private void OnDisable()

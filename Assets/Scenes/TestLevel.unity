@@ -513,7 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Snapshot:
     Taken: 0
-    Title: 
+    Title: Save1Test
     Completion: 0
 --- !u!4 &1133414827
 Transform:

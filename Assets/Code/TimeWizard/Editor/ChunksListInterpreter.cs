@@ -29,10 +29,6 @@ namespace TimeWizard.UnityEditor
         {
             if(ViewableChunks != null) {
                 _chunks = ViewableChunks.chunks.ToArray();
-                foreach(var chunkie in _chunks)
-                {
-                    string json = JsonUtility.ToJson(chunkie);
-                }
                 Manager.UpdateSnapshot(_chunks);
                 Manager.CaptureSnapshot(true);
             }

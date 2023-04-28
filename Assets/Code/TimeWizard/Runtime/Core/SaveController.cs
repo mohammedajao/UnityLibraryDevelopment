@@ -12,6 +12,8 @@ namespace TimeWizard.Core
 {
     public class SaveController
     {
+        private const string GlobalKey = "global";
+
         public event Action Saving;
         public event Action Saved;
 
@@ -25,6 +27,8 @@ namespace TimeWizard.Core
         private Chunk[] _snapshot;
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
+
+        private HashSet<string> _requiredChunks = new HashSet<string>() { GlobalKey };
 
         private Chunk[] ProcessInterpreters(Chunk[] saveChunks)
         {
@@ -66,6 +70,10 @@ namespace TimeWizard.Core
         public void CaptureSnapshot(bool overwriteChunks = false) // Adds the data of different stores to our global, area, and scene chunks
         {
             var saveChunks = new Dictionary<string, Chunk>();
+            if(_snapshot != null)
+            {
+                saveChunks = _snapshot.ToDictionary(chunk => chunk.Name, chunk => chunk);
+            }
             foreach(var store in _storeRegistry.List())
             {
                 var id = store.GetIdentifier();
@@ -79,7 +87,7 @@ namespace TimeWizard.Core
                         saveChunk = new Chunk(state.ChunkName);
                         saveChunks.Add(saveChunk.Name, saveChunk);
                     }
-                    saveChunk.AddToChunk(id, state.Data, overwriteChunks);
+                    saveChunk.AddToChunk(id, state.Data, state.IsOverwritable);
                     saveChunks[saveChunk.Name] = saveChunk;
                 }
             }
@@ -89,11 +97,14 @@ namespace TimeWizard.Core
             foreach (var interpreter in _interpreterRegistry.List()) {
                 interpreter.ProcessChunks(_snapshot);
             }
+
+            ProcessInterpreters(_snapshot);
         }
 
         public void ApplySnapshot(SaveContainer container)
         {
             if (_snapshot == null) return;
+            Debug.Log("[TimeWizard] Attempting to save...");
             Exception ex;
             Saving?.Invoke();
             var snapshot = ProcessInterpreters(_snapshot); // Apply dirty chunks
@@ -117,10 +128,29 @@ namespace TimeWizard.Core
             {
                 Debug.Log($"[TimeWizard] Successfully loaded save instance: {container.Name}");
                 _snapshot = chunks;
+                AddRequiredChunks();
                 ProcessSnapshotUpdate();
             }
             if(ex != null)
                 Debug.LogError($"{ex}");
+        }
+
+        // Could optimize this by using a Dictionary for our Chunks
+        // Use Dict with <string, ISaveChunk> interface
+        // Would require rewriting the various components in TimeWizard
+        private void AddRequiredChunks()
+        {
+            List<Chunk> addedChunks = new List<Chunk>();  
+            foreach(string chunkName in _requiredChunks)
+            {
+                var result = Array.Find(_snapshot, chunk => chunk.Name == chunkName);
+                if(result == null)
+                {
+                    Chunk newChunk = new Chunk() { Name = chunkName };
+                    addedChunks.Add(newChunk);
+                }
+            }
+            _snapshot = _snapshot.Concat(addedChunks.ToArray()).ToArray();
         }
 
         public SaveController(

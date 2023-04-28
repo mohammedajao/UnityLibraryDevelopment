@@ -14,6 +14,17 @@ public class App : UnitySingleton<App>
 
     public bool IsEditor = false;
 
+    // Test stuff
+    public bool Trigger = false;
+    void Update()
+    {
+        if(Trigger == true)
+        {
+            Trigger = false;
+            NextScene();
+        }
+    }
+
     internal class ApplicationException : System.Exception
     {
         public ApplicationException() { }
@@ -52,7 +63,14 @@ public class App : UnitySingleton<App>
                 yield return Save.Create().AsIEnumerator();
                 SaveService.CaptureSnapshot(true);
             };
+            SceneManager.activeSceneChanged += SyncSaveContextOnSceneChange;
         }
+    }
+
+    private void SyncSaveContextOnSceneChange(Scene curr, Scene next)
+    {
+        Debug.Log($"Prev Scene {curr.name} -- Next Scene {next.name}");
+        SaveService.CurrentSaveContext.UpdateSceneLocation(next.path);
     }
 
     public void NextScene()
@@ -62,6 +80,11 @@ public class App : UnitySingleton<App>
 
     public IEnumerator LoadYourAsyncScene()
     {
+        AsyncOperation asyncLoad2 = SceneManager.UnloadSceneAsync("SampleScene");
+        while (!asyncLoad2.isDone)
+        {
+            yield return null;
+        }
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("TestLevel", LoadSceneMode.Additive);
 
         // Wait until the asynchronous scene fully loads
@@ -70,10 +93,5 @@ public class App : UnitySingleton<App>
             yield return null;
         }
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("TestLevel"));
-        // AsyncOperation asyncLoad2 = SceneManager.UnloadSceneAsync("SampleScene");
-        // while (!asyncLoad2.isDone)
-        // {
-        //     yield return null;
-        // }
     }
 }

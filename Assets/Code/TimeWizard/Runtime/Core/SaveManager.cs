@@ -6,8 +6,6 @@ using TimeWizard;
 
 namespace TimeWizard.Core
 {
-    // Maybe add IGameService interface?
-    // TODO: Add events for TimeWizard inspector
     public class SaveManager
     {
         private ISaveLoader _loader;
@@ -17,6 +15,7 @@ namespace TimeWizard.Core
 
         private static SaveManager _instance = null;
         private static readonly object _lock = new object();
+        private SaveContext _currentSaveContext = null;
 
         SaveManager()
         {
@@ -44,7 +43,10 @@ namespace TimeWizard.Core
 
         public SaveContext GetSaveController(string saveId)
         {
-            return new SaveContext(saveId, controller);
+            if(_currentSaveContext != null) Unregister(_currentSaveContext);
+            _currentSaveContext = new SaveContext(saveId, controller);
+            Register(_currentSaveContext);
+            return _currentSaveContext;
         }
     
         // protected override void SingletonAwake() {
@@ -52,13 +54,14 @@ namespace TimeWizard.Core
         //     controller = new SaveController(_storeRegistry, _interpreterRegistry, _loader);
         // }
 
+        public SaveContext CurrentSaveContext => _currentSaveContext;
         public int IRSize => _interpreterRegistry.List().Length;
         public void Register(ISaveStore store) => _storeRegistry.Register(store);
         public void Register(ISaveInterpreter interpreter) => _interpreterRegistry.Register(interpreter);
         public void Unregister(ISaveStore store) => _storeRegistry.Unregister(store);
         public void Unregister(ISaveInterpreter interpreter) => _interpreterRegistry.Unregister(interpreter);
 
-        public void CaptureSnapshot(bool overwriteChunks = false) => controller.CaptureSnapshot(overwriteChunks);
+        public void CaptureSnapshot(bool overwriteChunks = true) => controller.CaptureSnapshot(overwriteChunks);
         public void ApplySnapshot(string saveName) => controller.ApplySnapshot(new SaveContainer() { Name = saveName });
         public void LoadSnapshot(string saveName) => controller.LoadSnapshot(new SaveContainer() { Name = saveName });
         public void UpdateSnapshot(Chunk[] saveChunks) => controller.UpdateSnapshot(saveChunks);

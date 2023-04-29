@@ -10,7 +10,7 @@ namespace TimeWizard
     {
         [SerializeField] public string ChunkName { get; set; }
         [SerializeField] public object Data { get; set; }
-        public bool IsOverwritable = true;
+        public bool IsOverwritable = false;
     }
 
     public interface ISaveStore

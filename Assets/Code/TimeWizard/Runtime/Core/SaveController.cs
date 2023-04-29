@@ -70,10 +70,10 @@ namespace TimeWizard.Core
         public void CaptureSnapshot(bool overwriteChunks = false) // Adds the data of different stores to our global, area, and scene chunks
         {
             var saveChunks = new Dictionary<string, Chunk>();
-            if(_snapshot != null)
-            {
-                saveChunks = _snapshot.ToDictionary(chunk => chunk.Name, chunk => chunk);
-            }
+            // if(_snapshot != null)
+            // {
+            //     saveChunks = _snapshot.ToDictionary(chunk => chunk.Name, chunk => chunk);
+            // }
             foreach(var store in _storeRegistry.List())
             {
                 var id = store.GetIdentifier();
@@ -92,9 +92,26 @@ namespace TimeWizard.Core
                 }
             }
 
-            _snapshot = saveChunks.Select((pair) => pair.Value).ToArray();
+            if(_snapshot != null)
+            {
+                foreach(var saveChunk in _snapshot)
+                {
+                    if(!saveChunks.ContainsKey(saveChunk.Name))
+                    {
+                        saveChunks[saveChunk.Name] = saveChunk;
+                    } else {
+                        foreach(var kvp in saveChunk.storage)
+                        {
+                            if(!saveChunks[saveChunk.Name].storage.ContainsKey(kvp.Key))
+                            {
+                                saveChunks[saveChunk.Name].storage[kvp.Key] = kvp.Value;
+                            }
+                        }
+                    }
+                }
+            }
 
-            AddRequiredChunks();
+            _snapshot = saveChunks.Select((pair) => pair.Value).ToArray();
 
             foreach (var interpreter in _interpreterRegistry.List()) {
                 interpreter.ProcessChunks(_snapshot);

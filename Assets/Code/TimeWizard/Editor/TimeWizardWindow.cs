@@ -103,11 +103,8 @@ namespace TimeWizard.UnityEditor
                 {
                     context.AddComponent<SaveSnapshot>();
                     currentSnapshot = context.GetComponent<SaveSnapshot>();
-                    currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
-                    currentSnapshot = context.GetComponent<SaveSnapshot>();
                 }
                 currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
-                currentSnapshot = context.GetComponent<SaveSnapshot>();
                 Manager.CaptureSnapshot();
             }
             if(currentSnapshot != null) {

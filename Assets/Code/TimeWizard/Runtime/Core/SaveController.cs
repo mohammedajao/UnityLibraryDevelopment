@@ -28,7 +28,7 @@ namespace TimeWizard.Core
 
         private readonly SemaphoreSlim _lock = new SemaphoreSlim(1, 1);
 
-        private HashSet<string> _requiredChunks = new HashSet<string>() { GlobalKey };
+        private HashSet<string> _requiredChunks = new HashSet<string>() { GlobalKey, "default", "scenes", "areas" };
 
         private Chunk[] ProcessInterpreters(Chunk[] saveChunks)
         {

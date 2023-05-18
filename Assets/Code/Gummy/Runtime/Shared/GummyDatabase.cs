@@ -12,9 +12,11 @@ namespace Gummy.Shared
     public class GummyDatabase : ScriptableObject
     {
         [SerializeField] public GummyDatabaseProvider provider;
+        public GummyEventBus eventBus;
 
         private readonly Dictionary<int, GummyEventEntry> _eventLookup = new();
         private readonly Dictionary<int, List<GummyRuleEntry>> _ruleLookup = new();
+        public List<GummyCollection> tables;
 
         // I think this returns the next rule given a rule
         public bool TryGetRule(int id, IGummyBlackboard context, out GummyRuleEntry match)

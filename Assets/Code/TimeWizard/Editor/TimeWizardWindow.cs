@@ -16,7 +16,7 @@ namespace TimeWizard.UnityEditor
         public static event Action SnapshotUpdate;
 
         public SaveManager Manager => SaveManager.Instance;
-        public SaveSnapshot currentSnapshot;
+        public GameContext currentSnapshot;
 
         [SerializeField] private Chunk[] _chunks = new Chunk[0];
 
@@ -80,7 +80,8 @@ namespace TimeWizard.UnityEditor
                 GameObject context = GameObject.Find("Context");
                 if(context != null)
                 {
-                    currentSnapshot = context.GetComponent<SaveSnapshot>();
+                    currentSnapshot = context.GetComponent<GameContext>();
+                    currentSnapshot = GameContext.Current;
                     if(string.IsNullOrWhiteSpace(currentSnapshot.Snapshot.Title))
                     {
                         currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
@@ -96,13 +97,14 @@ namespace TimeWizard.UnityEditor
                 {
                     context = new GameObject();
                     context.name = "Context";
-                    context.AddComponent<SaveSnapshot>();
+                    context.AddComponent<GameContext>();
                 }
-                currentSnapshot = context.GetComponent<SaveSnapshot>();
+                currentSnapshot = context.GetComponent<GameContext>();
+                currentSnapshot = GameContext.Current;
                 if(currentSnapshot == null)
                 {
-                    context.AddComponent<SaveSnapshot>();
-                    currentSnapshot = context.GetComponent<SaveSnapshot>();
+                    context.AddComponent<GameContext>();
+                    currentSnapshot = context.GetComponent<GameContext>();
                 }
                 currentSnapshot.Snapshot.Title = Guid.NewGuid().ToString();
                 Manager.CaptureSnapshot();

@@ -10,7 +10,8 @@ using TimeWizard;
 public class App : UnitySingleton<App>
 {
     public SaveManager SaveService => SaveManager.Instance;
-    public SaveSnapshot currentSnapshot;
+    public SaveSnapshotData currentSnapshot;
+    private string _activeScene;
 
     public bool IsEditor = false;
 
@@ -49,22 +50,27 @@ public class App : UnitySingleton<App>
     {
         // gameObject.AddComponent<SaveManagerService>();
         // SaveService = GetComponent<SaveManagerService>();
-        StartCoroutine(Start());
+        // SceneManager.activeSceneChanged += SyncSaveContextOnSceneChange;
+    }
+
+    protected override void SingletonOnEnable()
+    {
+        currentSnapshot = GameContext.Current.Snapshot;
+        if(!string.IsNullOrEmpty(currentSnapshot.Title)) {
+            StartCoroutine(Start());
+        };
     }
 
     public IEnumerator Start()
     {
-        GameObject context = GameObject.Find("Context");
-        if(context != null)
-        {
-            currentSnapshot = context.GetComponent<SaveSnapshot>();
-            if(currentSnapshot.Snapshot.Title != "") {
-                SaveContext Save = SaveService.GetSaveController(currentSnapshot.Snapshot.Title);
-                yield return Save.Create().AsIEnumerator();
-                SaveService.CaptureSnapshot(true);
-            };
-            SceneManager.activeSceneChanged += SyncSaveContextOnSceneChange;
+        SaveContext Save = SaveService.GetSaveController(currentSnapshot.Title);
+        yield return Save.Create().AsIEnumerator();
+        _activeScene = Save.Location.ScenePath;
+        if(SceneManager.GetActiveScene().path != _activeScene) {
+            yield return SceneManager.LoadSceneAsync(_activeScene, LoadSceneMode.Additive);
         }
+        SceneManager.SetActiveScene(SceneManager.GetSceneByPath(_activeScene));
+        GameContext.Current.Stores.OnLoad(Save);
     }
 
     private void SyncSaveContextOnSceneChange(Scene curr, Scene next)

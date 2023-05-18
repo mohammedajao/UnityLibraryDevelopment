@@ -46,7 +46,11 @@ public class SaveStoreTest : MonoBehaviour, ISaveStore
     }
 
     void Awake() {
-        Manager.Register(this);
+        GameContext.Current.Stores.Register(this);
+    }
+
+    void OnEnable()
+    {
     }
 
     // Start is called before the first frame update
@@ -58,7 +62,7 @@ public class SaveStoreTest : MonoBehaviour, ISaveStore
 
     private void OnDestroy()
     {
-        Manager.Unregister(this);
+        // GameContext.Current.Stores.Unregister(this);
     }
 
     // Update is called once per frame

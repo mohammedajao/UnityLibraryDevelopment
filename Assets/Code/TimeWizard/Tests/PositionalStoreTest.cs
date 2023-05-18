@@ -50,12 +50,16 @@ public class PositionalStoreTest : MonoBehaviour, ISaveStore
 
     void Awake() {
         _lastPosition = transform.position;
-        Manager.Register(this);
+        GameContext.Current.Stores.Register(this);
+    }
+
+    void OnEnable()
+    {
     }
 
     void OnDestroy()
     {
-        Manager.Unregister(this);
+        // GameContext.Current.Stores.Unregister(this);
     }
 
     // Start is called before the first frame update

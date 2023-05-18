@@ -39,6 +39,11 @@ public class UnitySingleton<T> : MonoBehaviour where T : MonoBehaviour
         CheckInstance(SingletonAwake);
     }
 
+    void OnEnable()
+    {
+        CheckInstance(SingletonOnEnable);
+    }
+
     private void Start()
     {
         started = true;
@@ -51,7 +56,9 @@ public class UnitySingleton<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     protected virtual void SingletonStart() {}
+    protected virtual void SingletonOnEnable() {}
     protected virtual void SingletonAwake() {}
+    
 
     private void CheckInstance(Action callback)
     {

@@ -14,4 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   provider: {fileID: 11400000, guid: 5edd1ffdf6644b848b74bd3651f4cfaa, type: 2}
   eventBus: {fileID: 11400000, guid: 5e428c4daf7c60d4e9d45092b782c7d7, type: 2}
-  tables: []
+  tables:
+  - {fileID: 11400000, guid: 296164ea8efb43243913f3dfb9af7892, type: 2}
+  - {fileID: 11400000, guid: 387cc94776e979e4584ac052739396fb, type: 2}
+  _setupTables:
+    rid: 2776060201175089152
+  dirtyTables:
+    rid: 2776060228051664897
+  references:
+    version: 2
+    RefIds:
+    - rid: 2776060201175089152
+      type: {class: StringGummyCollectionMap, ns: Gummy.Shared, asm: Assembly-CSharp}
+      data:
+        entries:
+        - key: 90ae8902-f53a-4a69-b85c-9ac3e3384cde
+          value: {fileID: 11400000, guid: 296164ea8efb43243913f3dfb9af7892, type: 2}
+        - key: SceneTestB
+          value: {fileID: 11400000, guid: 387cc94776e979e4584ac052739396fb, type: 2}
+    - rid: 2776060228051664897
+      type: {class: StringGummyCollectionMap, ns: Gummy.Shared, asm: Assembly-CSharp}
+      data:
+        entries: []

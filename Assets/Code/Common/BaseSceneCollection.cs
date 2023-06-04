@@ -11,7 +11,7 @@ public class BaseSceneCollection : GummyCollection
 {
     public GummyDatabase database;
 
-    private GummyEntryReference enterEvent;
+    [SerializeField] private GummyEntryReference enterEvent;
 
     public override void Setup(GummyDatabase db)
     {

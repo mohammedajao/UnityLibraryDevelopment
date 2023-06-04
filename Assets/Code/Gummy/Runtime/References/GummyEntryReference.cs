@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using Gummy.Entries;
 
 namespace Gummy.References
@@ -7,7 +8,7 @@ namespace Gummy.References
     [Serializable]
     public struct GummyEntryReference : IEquatable<GummyEntryReference>
     {
-        public int id;
+        [SerializeField] public int id;
 
         public bool HasValue
         {
@@ -81,7 +82,7 @@ namespace Gummy.References
             {
                 throw new ArgumentOutOfRangeException(nameof(identifier), "ID cannot be 0.");
             }
-            id = identifier;
+            this.id = identifier;
         }
     }
 }

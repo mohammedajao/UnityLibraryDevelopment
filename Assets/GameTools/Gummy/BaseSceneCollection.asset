@@ -13,7 +13,22 @@ MonoBehaviour:
   m_Name: BaseSceneCollection
   m_EditorClassIdentifier: 
   Name: 90ae8902-f53a-4a69-b85c-9ac3e3384cde
+  facts: []
   rules: []
+  events:
+  - rid: 2776060246575284224
+  database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
+  enterEvent:
+    id: -1040841110
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 2776060246575284224
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -1040841110
+        key: on_enter
+        scope:
+          id: 0
+        once: 0
+        criteria: []

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19fa594959e185941aaac8de59b4941d, type: 3}
+  m_Name: SceneTestB
+  m_EditorClassIdentifier: 
+  Name: SceneTestB
+  facts: []
+  rules: []
+  events:
+  - rid: 2776060246929440768
+  database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
+  enterEvent:
+    id: -50106142
+  references:
+    version: 2
+    RefIds:
+    - rid: 2776060246929440768
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -50106142
+        key: on_enter
+        scope:
+          id: 0
+        once: 0
+        criteria: []

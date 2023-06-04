@@ -15,7 +15,7 @@ namespace Gummy.Tools
 
         public bool Test(GummyDatabase database)
         {
-            return false;
+            return true;
         } 
     }
 }

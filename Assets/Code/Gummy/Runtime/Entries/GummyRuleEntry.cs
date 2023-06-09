@@ -18,6 +18,8 @@ namespace Gummy.Entries
         public GummyEntryReference triggeredBy;
         public GummyEntryReference triggers;
 
+        public override GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.RuleDescriptor;
+
         [SerializeField]
         internal GummyEvent.Triggerable[] onStart = Array.Empty<GummyEvent.Triggerable>();
 
@@ -34,12 +36,12 @@ namespace Gummy.Entries
 
         public override void AddToTable(GummyCollection collection)
         {
-            collection.rules.Add(this);
+            descriptor.AddToTable(collection, this);
         }
 
         public override void RemoveFromTable(GummyCollection collection)
         {
-            collection.rules.Remove(this);
+            descriptor.RemoveFromTable(collection, this);
         }
     }
 }

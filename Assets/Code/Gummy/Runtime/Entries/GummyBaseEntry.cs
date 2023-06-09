@@ -18,6 +18,8 @@ namespace Gummy.Entries
 
         public bool once;
 
+        public virtual GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.FactDescriptor;
+
         [SerializeField]
         internal GummyBlackboardCriterion[] criteria = Array.Empty<GummyBlackboardCriterion>();
 

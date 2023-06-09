@@ -43,10 +43,18 @@ namespace Gummy.Shared
 
             // Setup tables not currently being tracked
             foreach(var table in tables) {
-                if(!(table is null) && !_setupTables.ContainsKey(table.Name)) {
+                if(!(table is null) && !_setupTables.ContainsValue(table)) {
                     _setupTables.Add(table.Name, table);
                     table.Setup(this);
                     if(!dirtyTables.ContainsKey(table.Name)) dirtyTables.Add(table.Name, table);
+                } else if(_setupTables.ContainsValue(table)) {
+                    foreach(var kvp in _setupTables) {
+                        if(kvp.Value == table) {
+                            _setupTables.Remove(kvp.Key);
+                            _setupTables[table.Name] = table;
+                            break;
+                        }
+                    }
                 }
             }
         }

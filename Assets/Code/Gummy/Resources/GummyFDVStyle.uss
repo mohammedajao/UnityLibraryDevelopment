@@ -1,0 +1,12 @@
+VisualElement {}
+
+.fdv-bar {
+    justify-content: space-between;
+    padding: 10px;
+    height: 36px;
+    background-color: var(--unity-colors-default-background);
+}
+
+.fdv-bar-id {
+    opacity: 0.5;
+}

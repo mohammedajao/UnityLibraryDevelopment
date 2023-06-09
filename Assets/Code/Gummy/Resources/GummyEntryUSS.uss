@@ -1,0 +1,13 @@
+VisualElement {}
+
+.gummy-entry {
+    padding-right: 5px;
+    padding-left: 30px;
+    justify-content: center;
+}
+
+.align-horizontal {
+    /* padding-top: 3px; */
+    flex-direction:  row;
+    justify-content: space-between;
+}

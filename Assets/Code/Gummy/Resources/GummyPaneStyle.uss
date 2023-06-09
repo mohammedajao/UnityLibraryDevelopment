@@ -1,0 +1,42 @@
+VisualElement {
+    
+}
+
+.gummy-pane {
+    border-width: 1px;
+    border-color: black;
+}
+
+.pane-searchbar {
+    /* padding-right: 30px; */
+    max-width: 95%;
+    min-height: 20px;
+    position: relative;
+}
+
+.searchbar-container {
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    border-bottom-width: 1px;
+    border-color: black;
+}
+
+.entries-group {
+    border-bottom-width: 1px;
+    border-color: black;
+    height: auto;
+}
+
+.entries-group-nb {
+    height: auto;
+}
+
+.gc-name {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 30px;
+    /* height: 20px; */
+    justify-content: center;
+}

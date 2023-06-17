@@ -10,3 +10,8 @@ VisualElement {}
 .fdv-bar-id {
     opacity: 0.5;
 }
+
+.fdv-title-holder {
+    flex-direction: row;
+    justify-content: center;
+}

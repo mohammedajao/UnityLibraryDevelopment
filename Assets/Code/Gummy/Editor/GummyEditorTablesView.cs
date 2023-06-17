@@ -29,19 +29,19 @@ namespace Gummy.Editor
 
         public void OnInspectorGUI(GummyDatabase database, SerializedObject db)
         {
-            EditorGUILayout.Space();
-            EditorGUILayout.BeginHorizontal();
-            searchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Space();
-            DrawHorizontalLine();
-            foreach(var table in database.tables) {
-                if(!string.IsNullOrEmpty(searchString) && !table.Name.ToLower().Contains(searchString.ToLower())) continue;
-                if(GUILayout.Button(table.Name)) {
-                    currentTable = table;
-                    GummyUtil.RaiseTableSelected(table);
-                }
-            }
+            // EditorGUILayout.Space();
+            // EditorGUILayout.BeginHorizontal();
+            // searchString = GUILayout.TextField(searchString, GUI.skin.FindStyle("ToolbarSeachTextField"));
+            // EditorGUILayout.EndHorizontal();
+            // EditorGUILayout.Space();
+            // DrawHorizontalLine();
+            // foreach(var table in database.tables) {
+            //     if(!string.IsNullOrEmpty(searchString) && !table.Name.ToLower().Contains(searchString.ToLower())) continue;
+            //     if(GUILayout.Button(table.Name)) {
+            //         currentTable = table;
+            //         GummyUtil.RaiseTableSelected(table);
+            //     }
+            // }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Gummy.Tools
     public class GummyEvent
     {
         [SerializeField]
-        public GummyEntryReference eventReference;
+        public GummyEntryReference eventReference; // rule or entry
 
         [SerializeField]
         public GummyBlackboard context;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gummy.References;
+using Gummy.Shared;
 using Gummy.Tools;
 
 namespace Gummy.Blackboard
@@ -10,23 +11,37 @@ namespace Gummy.Blackboard
     [Serializable]
     public class GummyBlackboardCriterion
     {
-
-        public enum CompareMode
+        internal enum CompareMode
         {
             EQUALS_TO,
             LESS_THAN,
             GREATER_THAN,
             LESS_THAN_EQ,
-            GREATER_THAN_EQ
+            GREATER_THAN_EQ,
+            ALIKE,
+            NOT_ALIKE
         }
 
         [SerializeField] public GummyEntryReference reference;
-        [SerializeField] public CompareMode mode = CompareMode.EQUALS_TO;
-        [SerializeField] public bool UseConstant = true;
+        [SerializeField] internal CompareMode mode = CompareMode.EQUALS_TO;
         [SerializeField] public int comparand = 0;
 
-        public bool Check() {
-            int referenceValue = 0; // TODO replace with Get reference value
+        public virtual bool Check(GummyDatabase database) {
+            if (reference == 0) return false;
+            int referenceValue = database.GetBlackboardForEntry(reference).Get(reference);
+
+            if (mode == CompareMode.ALIKE) { // Let editor show comparand as a fact
+                if (comparand == 0) return false;
+                int rhs = database.GetBlackboardForEntry(comparand).Get(comparand);
+                return referenceValue == rhs;
+            }
+
+            if (mode == CompareMode.NOT_ALIKE) { // Let editor show comparand as a fact
+                if (comparand == 0) return false;
+                int rhs = database.GetBlackboardForEntry(comparand).Get(comparand);
+                return referenceValue != rhs;
+            }
+
             switch(mode)
             {
                 case CompareMode.EQUALS_TO:

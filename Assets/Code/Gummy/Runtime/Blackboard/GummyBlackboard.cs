@@ -7,7 +7,7 @@ namespace Gummy.Blackboard
 {
     public interface IGummyBlackboard
     {
-        int? Get(int identifier);
+        int Get(int identifier);
         void Set(int identifier, int value);
     }
 
@@ -37,10 +37,10 @@ namespace Gummy.Blackboard
             return false;
         }
 
-        public int? Get(int identifier)
+        public int Get(int identifier)
         {
             if(!storage.ContainsKey(identifier))
-                return null;
+                return 0;
             return storage[identifier];
         }
 

@@ -40,3 +40,13 @@ VisualElement {
     /* height: 20px; */
     justify-content: center;
 }
+
+.gc-editor-title TextInput {
+    background-color: rgba(0,0,0,0);
+    border-width: 0;
+}
+
+.gc-editor-title:focus TextInput {
+    background-color: var(--unity-colors-input_field-background);
+    border-width: 1px 1px 1px 1px;
+}

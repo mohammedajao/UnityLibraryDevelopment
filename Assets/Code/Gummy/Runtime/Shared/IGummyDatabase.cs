@@ -6,7 +6,7 @@ using Gummy.Entries;
 
 namespace Gummy.Shared
 {
-    public abstract class GummyDatabaseProvider : ScriptableObject
+    public abstract class IGummyDatabaseProvider : ScriptableObject
     {
         public abstract IGummyBlackboard GetBlackboard(int scope, IGummyBlackboard context);
     }

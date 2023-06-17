@@ -13,6 +13,7 @@ namespace Gummy.Entries
         public static GummyRuntimeEntryDescriptor RuleDescriptor = new GummyRuntimeEntryDescriptor(GummyEntryType.Rule);
         public static GummyRuntimeEntryDescriptor FactDescriptor = new GummyRuntimeEntryDescriptor(GummyEntryType.Fact);
         public static GummyRuntimeEntryDescriptor EventDescriptor = new GummyRuntimeEntryDescriptor(GummyEntryType.Event);
+        public static GummyRuntimeEntryDescriptor ScopeDescriptor = new GummyRuntimeEntryDescriptor(GummyEntryType.Fact);
 
         protected GummyRuntimeEntryDescriptor(GummyEntryType type)
         {

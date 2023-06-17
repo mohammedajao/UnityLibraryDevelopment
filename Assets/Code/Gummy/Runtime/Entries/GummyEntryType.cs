@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Gummy.Entries
 {
+    [Serializable]
     public class GummyEntryType
     {
         public static readonly GummyEntryType Fact = new GummyEntryType(typeof(GummyFactEntry));

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19fa594959e185941aaac8de59b4941d, type: 3}
   m_Name: SceneTestB
   m_EditorClassIdentifier: 
-  Name: SceneTestB
+  Name: SceneTestC
   facts: []
   rules: []
   events:

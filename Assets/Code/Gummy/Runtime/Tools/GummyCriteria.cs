@@ -11,11 +11,15 @@ namespace Gummy.Tools
     public class GummyCriteria
     {
         [SerializeField]
-        public List<GummyBlackboardCriterion> criterion = new();
+        public List<GummyBlackboardCriterion> criteria = new();
 
         public bool Test(GummyDatabase database)
         {
+            for(int i = 0; i < criteria.Count; i++) {
+                var criterion = criteria[i];
+                if(!criterion.Check(database)) return false;
+            }
             return true;
-        } 
+        }
     }
 }

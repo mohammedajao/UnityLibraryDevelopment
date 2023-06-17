@@ -7,6 +7,11 @@ using TimeWizard.Core;
 using TimeWizard.Persistence;
 using TimeWizard;
 
+public interface AppComponent
+{
+    void OnLoad();
+}
+
 public class App : UnitySingleton<App>
 {
     public SaveManager SaveService => SaveManager.Instance;
@@ -14,6 +19,8 @@ public class App : UnitySingleton<App>
     private string _activeScene;
 
     public bool IsEditor = false;
+
+    public static List<AppComponent> Components = new();
 
     // Test stuff
     public bool Trigger = false;
@@ -25,6 +32,8 @@ public class App : UnitySingleton<App>
             NextScene();
         }
     }
+
+    // End TestStuff
 
     internal class ApplicationException : System.Exception
     {
@@ -42,8 +51,16 @@ public class App : UnitySingleton<App>
         var app = Object.Instantiate(Resources.Load("App")) as GameObject;
         if(app == null)
             throw new ApplicationException();
-        
+        OnLoad();
         Object.DontDestroyOnLoad(app);
+    }
+
+    public static void OnLoad()
+    {
+        foreach(var component in Components)
+        {
+            component.OnLoad();
+        }
     }
 
     protected override void SingletonAwake()

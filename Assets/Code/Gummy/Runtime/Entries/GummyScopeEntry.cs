@@ -7,16 +7,8 @@ using Gummy.Shared;
 namespace Gummy.Entries
 {
     [Serializable]
-    public class GummyScopeEntry : GummyBaseEntry
+    public class GummyScopeEntry : GummyFactEntry
     {
-        public string chunkName = "default";
-
-        public override void AddToTable(GummyCollection collection)
-        {
-        }
-
-        public override void RemoveFromTable(GummyCollection collection)
-        {
-        }
+        public override GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.ScopeDescriptor;
     }
 }

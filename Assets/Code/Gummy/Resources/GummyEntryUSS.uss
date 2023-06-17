@@ -10,4 +10,9 @@ VisualElement {}
     /* padding-top: 3px; */
     flex-direction:  row;
     justify-content: space-between;
+    align-items: center;
+}
+
+.gummy-entry-value {
+    color: #597D35;
 }

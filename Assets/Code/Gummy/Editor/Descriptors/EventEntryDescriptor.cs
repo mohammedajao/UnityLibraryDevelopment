@@ -18,5 +18,9 @@ namespace Gummy.Editor
         {
             table.AddEntry(entry);
         }
+
+        public EventEntryDescriptor() {
+            this.RealType = typeof(GummyEventEntry);
+        }
     }
 }

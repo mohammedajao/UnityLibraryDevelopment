@@ -16,8 +16,6 @@ namespace Gummy.Shared
     public class StringGummyCollectionMap : SerializedDictionary<string, GummyCollection> {};
     [Serializable]
     public class IntBaseEntryLookup : SerializedDictionary<int, GummyBaseEntry> {};
-    [Serializable]
-    public class ContextualBlackboard : SerializedDictionary<int, IGummyBlackboard> {}
 
     // DB has a provider object with GetBlackboardForEntry apparently
     [CreateAssetMenu(fileName = "GummyDatabase", menuName = "Gummy/Shared/GummyDatabase", order = 0)]
@@ -25,8 +23,6 @@ namespace Gummy.Shared
     {
         [SerializeField] public IGummyDatabaseProvider provider;
         public GummyEventBus eventBus;
-
-        [SerializeField] public ContextualBlackboard BlackboardContexts = new();
 
         private readonly Dictionary<int, GummyEventEntry> _eventLookup = new();
         private readonly Dictionary<int, List<GummyRuleEntry>> _ruleLookup = new();
@@ -43,7 +39,7 @@ namespace Gummy.Shared
         }
 
         private void OnEnable() {
-            CreateLookupIfNecessary();
+            CreateLookupIfNecessary(true);
             Debug.Log("Running bindings");
             foreach(var kvp in _eventLookup) {
                 var eventEntry = kvp.Value;
@@ -58,9 +54,10 @@ namespace Gummy.Shared
 
         public void Initialize()
         {
-            CreateLookupIfNecessary();
+            CreateLookupIfNecessary(true);
             foreach(var kvp in _eventLookup) {
                 var eventEntry = kvp.Value;
+                Debug.Log($"Binding {eventEntry.id}");
                 eventBus.AddListener(eventEntry.id, HandleEntryEvent);
             }
         }
@@ -156,6 +153,9 @@ namespace Gummy.Shared
 
         public IGummyBlackboard GetBlackboardForEntry(GummyEntryReference entry)
         {
+            if (_entryLookup.TryGetValue(entry, out var baseEntry)) {
+                return provider.GetBlackboard(baseEntry.scope, provider.BlackboardIdentifier);
+            }
             return EmptyBlackboard.Instance;
         }
 
@@ -171,10 +171,10 @@ namespace Gummy.Shared
             return true;
         }
 
-        private void CreateLookupIfNecessary()
+        private void CreateLookupIfNecessary(bool force = false)
         {
-            Debug.Log($"Is lookup require? {_requireCreateLookup}");
-            if(!_requireCreateLookup) {
+            Debug.Log($"Is lookup required? {_requireCreateLookup}");
+            if(_requireCreateLookup || force) {
                 foreach(var table in tables)
                 {
                     Debug.Log($"Create lookup for table {table.Name}");
@@ -210,11 +210,18 @@ namespace Gummy.Shared
             board.Set(entry.id, currentValue + 1);
             GummyUtil.RaiseEntryChanged(entry.id,context);
         }
+
+        public int GenerateID()
+        {
+            byte[] gb = Guid.NewGuid().ToByteArray();
+            int identifier = BitConverter.ToInt32(gb,0);
+            return identifier;
+        }
     
         public GummyBaseEntry CreateEntry(GummyCollection collection, Type entryType)
         {
             CreateLookupIfNecessary();
-            int id = Guid.NewGuid().GetHashCode();
+            int id = GenerateID(); //Guid.NewGuid().GetHashCode();
             GummyBaseEntry entry = null;
             if(entryType == typeof(GummyRuleEntry)) {
                 GummyRuleEntry newRule = new GummyRuleEntry() { id = id };

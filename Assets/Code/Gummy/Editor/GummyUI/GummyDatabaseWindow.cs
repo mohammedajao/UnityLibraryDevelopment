@@ -91,9 +91,53 @@ namespace Gummy.Editor
             return tableListView;
         }
 
-        public VisualElement CreateEntriesListView(List<GummyBaseEntry> entries, SerializedProperty property, string title = "<EntryType>", bool addBottomBorder = true) {
+        public ContextualMenuManipulator CreateEntryMenu(GummyCollection table, Type baseType, List<GummyBaseEntry> source, ListView visualList)
+        {
+            List<EntryDescriptor> descriptors = new();
+            foreach(var kvp in DescriptorCache.Descriptors)
+            {
+                if (kvp.Value.Type.internalValue == baseType) {
+                    descriptors.Add(kvp.Value);
+                }
+            }
+            var menu = new ContextualMenuManipulator((ContextualMenuPopulateEvent evt) => {
+                if(descriptors.Count == 1) {
+                    evt.menu.AppendAction("Create", (e) =>{
+                        var obj = Activator.CreateInstance(descriptors[0].RealType);
+                        var nentry = (GummyBaseEntry)obj;
+                        nentry.id = database.GenerateID();
+                        nentry.key = $"<{descriptors[0].Name}>";
+                        descriptors[0].HandleEntryCreated(nentry, table);
+                        source.Add(nentry);
+                        visualList.Rebuild();
+                    });
+                } else {
+                    foreach(var desc in descriptors) {
+                        evt.menu.AppendAction("Create/" + desc.Name, (e) => {
+                            var obj = Activator.CreateInstance(desc.RealType);
+                            var nentry = (GummyBaseEntry)obj;
+                            nentry.id = database.GenerateID();
+                            nentry.key = $"<{desc.Name}>";
+                            desc.HandleEntryCreated(nentry, table);
+                            source.Add(nentry);
+                            visualList.Rebuild();
+                        });
+                    }
+                }
+            });
+            return menu;
+        }
+
+        public VisualElement CreateEntriesListView(
+            List<GummyBaseEntry> entries,
+            SerializedProperty property,
+            Type baseType,
+            string title = "<EntryType>",
+            bool addBottomBorder = true
+        ) {
             var root = new VisualElement();
             var entriesListView = new ListView();
+            property.serializedObject.Update();
             if(addBottomBorder) {
                 entriesListView.AddToClassList("entries-group");
             } else {
@@ -104,7 +148,7 @@ namespace Gummy.Editor
             entriesListView.showBoundCollectionSize = false;
             entriesListView.selectedIndex = _selectedEntryIndex;
             entriesListView.makeItem = () => HandleEntryViewItemCreated();
-            entriesListView.bindItem = (item, index) => HandleEntryViewBind(item, index, entries, property);
+            entriesListView.bindItem = (item, index) => HandleEntryViewBind(item, index, entries, property, entriesListView);
             entriesListView.itemsSource = entries;
             entriesListView.fixedItemHeight = 30;
             entriesListView.selectionChanged += (items) => HandleEntrySelected(items, entriesListView, property);
@@ -112,11 +156,7 @@ namespace Gummy.Editor
 
             var target = entriesListView.Q<Toggle>();
             target.focusable = true;
-            target.AddManipulator(new ContextualMenuManipulator((ContextualMenuPopulateEvent evt) => {
-                evt.menu.AppendAction("Create", (e) => {
-                    Debug.Log("Create an entry via LV click!");
-                });
-            }));
+            target.AddManipulator(CreateEntryMenu(currentTable, baseType, entries, entriesListView));
             return root;
         }
 
@@ -147,8 +187,9 @@ namespace Gummy.Editor
             return root;
         }
 
-        public void HandleEntryViewBind(VisualElement root, int index, List<GummyBaseEntry> entries, SerializedProperty property)
+        public void HandleEntryViewBind(VisualElement root, int index, List<GummyBaseEntry> entries, SerializedProperty property, ListView visualList)
         {
+            property.serializedObject.Update();
             var title = (TextField)root.Q("Entry Title");
             var valueDisplay = (Label)root.Q("Entry Value");
             GummyBaseEntry entry = entries[index];
@@ -181,8 +222,22 @@ namespace Gummy.Editor
                 evt.menu.AppendAction("Create", (x) => {});
                 evt.menu.AppendAction("Move To", (x) => {});
                 evt.menu.AppendAction("Remove", (x) => {
+                    if(currentEntry.id == entries[index].id) {
+                        factsDetailsView.Clear();
+                    }
+                    property.serializedObject.Update();
+                    entries.RemoveAt(index);
                     property.DeleteArrayElementAtIndex(index);
                     property.serializedObject.ApplyModifiedProperties();
+
+                    var bar = new Toolbar();
+                    var title = new Label();
+                    title.text = currentTable.Name;
+                    title.BindProperty(serializedCurrentTable.FindProperty("Name"));
+                    bar.AddToClassList("fdv-bar");
+                    bar.Add(title);
+                    factsDetailsView.Add(bar);
+                    visualList.Rebuild();
                 });
             }));
             var type = (Label)root.Q("Entry Type");
@@ -266,9 +321,9 @@ namespace Gummy.Editor
             var serializedRules = serializedCurrentTable.FindProperty("rules");
 
             var factsSearchBar = CreateSearchbarSection();
-            var factsList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.facts), serializedFacts, "Facts");
-            var rulesList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.rules), serializedRules, "Rules");
-            var eventsList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.events), serializedEvents, "Events", false);
+            var factsList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.facts), serializedFacts, typeof(GummyFactEntry), "Facts");
+            var rulesList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.rules), serializedRules, typeof(GummyRuleEntry), "Rules");
+            var eventsList = CreateEntriesListView(ConvertTableToBaseEntries(currentTable.events), serializedEvents, typeof(GummyEventEntry), "Events", false);
 
             rulesList.name = "fp-lv-rules";
             factsList.name = "fp-lv-facts";

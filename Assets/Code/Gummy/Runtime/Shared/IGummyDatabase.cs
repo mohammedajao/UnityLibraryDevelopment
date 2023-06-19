@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,15 @@ using Gummy.Entries;
 
 namespace Gummy.Shared
 {
+    [Serializable]
+    public class ContextualBlackboard : SerializedDictionary<int, IGummyBlackboard> {}
+
     public abstract class IGummyDatabaseProvider : ScriptableObject
     {
+        public IGummyBlackboard BlackboardIdentifier;
         public abstract IGummyBlackboard GetBlackboard(int scope, IGummyBlackboard context);
     }
+
     public interface IGummyDatabase
     {
         IGummyBlackboard GetBlackboardForEntry(int fact);
@@ -21,9 +27,8 @@ namespace Gummy.Shared
         // We have global, area, scene, and temporary scopes.
         bool TryGetEntry(int id, out GummyBaseEntry candidate);
         bool TryGetRule(int id, IGummyBlackboard context, out GummyRuleEntry match);
-        bool TryGetCollection(int id, out GummyCollection table);
         bool TestEntry(GummyBaseEntry entry, IGummyBlackboard context);
         void CreateLookupIfNecessary(); // This function could check the length of rule and event Lists in tables and recreate the lookup tables if it's lower or remove them
-        Dictionary<GummyRuleEntry, IGummyBlackboard> GetRules(int entry);
+        List<GummyRuleEntry> GetRules(int entry);
     }
 }

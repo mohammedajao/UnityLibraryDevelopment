@@ -78,10 +78,10 @@ namespace Gummy.References
 
         public GummyEntryReference(int identifier)
         {
-            if(identifier == 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(identifier), "ID cannot be 0.");
-            }
+            // if(identifier == 0)
+            // {
+            //     throw new ArgumentOutOfRangeException(nameof(identifier), "ID cannot be 0.");
+            // }
             this.id = identifier;
         }
     }

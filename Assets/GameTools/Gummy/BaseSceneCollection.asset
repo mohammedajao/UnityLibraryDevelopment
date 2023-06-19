@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: BaseSceneCollection
   m_EditorClassIdentifier: 
   Name: TestSceneTable
-  facts: []
+  facts:
+  - rid: 2776060600231919627
   rules: []
   events:
   - rid: 2776060246575284224
@@ -28,6 +29,15 @@ MonoBehaviour:
       data:
         id: -1040841110
         key: on_enter
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+    - rid: 2776060600231919627
+      type: {class: GummyScopeEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 1267841521
+        key: global
         scope:
           id: 0
         once: 0

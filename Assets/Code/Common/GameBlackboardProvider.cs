@@ -8,27 +8,30 @@ using Gummy.Entries;
 using Gummy.Shared;
 
 [Serializable]
-public class ScopesBlackboardMap : SerializedDictionary<int, IGummyBlackboard> {}
-
-[Serializable]
 [CreateAssetMenu(fileName="BlackboardProvider", menuName="Gummy/Shared/BlackboardProvider")]
 public class GameBlackboardProvider : IGummyDatabaseProvider
 {
     public static readonly string Name = "BlackboardProvider";
-    public BaseBlackboard BlackboardIdentities = new();
-    public ScopesBlackboardMap ScopesBlackboards = new();
+    [SerializeField] private ContextualBlackboard Contexts = new();
 
-    public void SetScopeBlackboard(int scope, IGummyBlackboard context)
+    public void SetScopeBlackboard(int scope, BaseBlackboard context)
     {
-        ScopesBlackboards[scope] = context;
+        this.Contexts[scope] = context;
+        this.BlackboardIdentifier.Set(scope, context.ID);
     }
 
     public override IGummyBlackboard GetBlackboard(int scope, IGummyBlackboard context)
     {
-        if(ScopesBlackboards.ContainsKey(scope))
-        {
-            return ScopesBlackboards[scope];
+        var boardID = context.Get(scope);
+        if(boardID != 0) {
+            if(Contexts.ContainsKey(boardID)) {
+                return Contexts[boardID];
+            }
         }
         return EmptyBlackboard.Instance;
+    }
+
+    public GameBlackboardProvider() {
+        this.BlackboardIdentifier = new BaseBlackboard();
     }
 }

@@ -21,8 +21,8 @@ Data Flow Breakdown:
 **Why blackboards?**
 As dictionaries grow, they become slower. Thus, we want to apply our entries (facts, rules, or events) to blackboards (dictionaries mapping entry ids to values) so we have a small dictionary/blackboard size and have quick hashtable operations. 
 
-**The code does not work when I use it**
-It's not supposed to. This repo isn't a tool. It's just a past development project. If I upload the completed version at some point, feel free to use it. The point is the idea. While I do have a working version, I also have a set of serialized data and my project is set up properly for this code. This repo is not a guide or official library/framework but the data flow explains how it works and you can use the logic to make your own.
+**How come the code doesn't work when I run the tool?**
+It's not supposed to. This repo isn't a tool and it doesn't contain all the settings I used. It's just a past development project. If I upload the completed version at some point, feel free to use it. The point is the idea. While I do have a working version, I also have a set of serialized data and my project is set up properly for this code. This repo is not a guide or official library/framework but a showcase. The data flow explains how it works and you can use the logic to make your own.
 
 **Motivation**
 I made this mainly to learn. I just saw the code already developed by other users and built the rest based on what was missing.
@@ -33,6 +33,7 @@ I made this mainly to learn. I just saw the code already developed by other user
 - Upload rules and facts and newer events being used
 - Upload GameObjects and new tests that showcase the database working
 - Address GetBlackboardForEntry() and hook database flow to App flow post-provider initialization
+- Clean up UI code to use files and modularize UI code pieces 
 
 # Resources
 - https://www.youtube.com/watch?v=tAbBID3N64A

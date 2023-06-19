@@ -10,9 +10,10 @@ public class GummyEventBusTest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Trying");
         if (bus == null || provider == null) return;
         Debug.Log("Invoking event");
-        bus.Invoke(-50106142, provider.BlackboardIdentities);
+        bus.Invoke(-50106142, provider.BlackboardIdentifier);
     }
 
     // Update is called once per frame

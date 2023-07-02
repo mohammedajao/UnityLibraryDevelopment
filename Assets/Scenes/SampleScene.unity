@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 644904039}
   - component: {fileID: 644904038}
   - component: {fileID: 644904041}
+  - component: {fileID: 644904042}
   m_Layer: 0
   m_Name: PositionalStoreTest
   m_TagString: Untagged
@@ -422,6 +423,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Activate: 0
+--- !u!114 &644904042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644904036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38d8eb33591814e48ac3d2c6ec73fdf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speaker:
+    id: -2115254343
+  Speakers: {fileID: 11400000, guid: b9e228d81375f6049b47c0ed2b50c869, type: 2}
 --- !u!1 &793570733
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,7 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Snapshot:
     Taken: 0
-    Title: 1f4e2a8a-0d54-4cc9-9298-24289672603f
+    Title: 7f398d56-0985-4c9c-b320-9a30eb1e0a4d
     Completion: 0
 --- !u!1 &1655553220
 GameObject:
@@ -843,7 +859,7 @@ MonoBehaviour:
   bus: {fileID: 11400000, guid: 5e428c4daf7c60d4e9d45092b782c7d7, type: 2}
   provider: {fileID: 11400000, guid: 5edd1ffdf6644b848b74bd3651f4cfaa, type: 2}
   test:
-    id: -1530514944
+    id: -50106142
 --- !u!1 &1736406688
 GameObject:
   m_ObjectHideFlags: 0

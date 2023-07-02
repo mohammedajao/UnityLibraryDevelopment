@@ -17,6 +17,7 @@ public class App : UnitySingleton<App>
     public SaveManager SaveService => SaveManager.Instance;
     public SaveSnapshotData currentSnapshot;
     private string _activeScene;
+    public SpeakerSet ActiveSpeakers;
 
     public bool IsEditor = false;
 

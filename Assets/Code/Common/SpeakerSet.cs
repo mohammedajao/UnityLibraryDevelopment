@@ -6,9 +6,9 @@ using Gummy.Entries;
 [CreateAssetMenu(fileName = "SpeakerRuntimeSet", menuName = "RuntimeSets/Speakers")]
 public class SpeakerSet : ScriptableObject
 {
-    private readonly Dictionary<int, GameObject> data = new();
+    private readonly Dictionary<int, SpeakerComponent> data = new();
 
-    public void RegisterSpeaker(int id, GameObject speaker)
+    public void RegisterSpeaker(int id, SpeakerComponent speaker)
     {
         data[id] = speaker;
     }
@@ -19,7 +19,7 @@ public class SpeakerSet : ScriptableObject
         data.Remove(id);
     }
 
-    public bool TryGetSpeaker(int id, out GameObject speaker)
+    public bool TryGetSpeaker(int id, out SpeakerComponent speaker)
     {
         speaker = null;
         if (data.ContainsKey(id)) {

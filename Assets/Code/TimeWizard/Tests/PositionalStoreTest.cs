@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TimeWizard;
 using TimeWizard.Core;
+using Gummy.References;
 
 // Currently bugged
 public class PositionalStoreTest : MonoBehaviour, ISaveStore
@@ -55,11 +56,6 @@ public class PositionalStoreTest : MonoBehaviour, ISaveStore
 
     void OnEnable()
     {
-    }
-
-    void OnDestroy()
-    {
-        // GameContext.Current.Stores.Unregister(this);
     }
 
     // Start is called before the first frame update

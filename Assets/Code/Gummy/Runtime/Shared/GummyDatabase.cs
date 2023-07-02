@@ -202,6 +202,9 @@ namespace Gummy.Shared
                     foreach(var ruleEntry in table.rules)
                     {
                         if (ruleEntry.triggeredBy != 0) {
+                            if(!_ruleLookup.ContainsKey(ruleEntry.triggeredBy)) {
+                                _ruleLookup[ruleEntry.triggeredBy] = new List<GummyRuleEntry>();
+                            }
                             _ruleLookup[ruleEntry.triggeredBy].Add(ruleEntry);
                         }
                         _entryLookup[ruleEntry.id] = ruleEntry;
@@ -213,9 +216,10 @@ namespace Gummy.Shared
                         _entryTableLookup[factEntry.id] = table.Name;
                     }
                 }
-                foreach(var kvp in _ruleLookup) {
-                    var ruleList = kvp.Value;
-                    _ruleLookup[kvp.Key] = ruleList.OrderBy(rule => rule.Weight).ToList();
+                List<int> ruleLookupkeys = new List<int>(_ruleLookup.Keys);
+                foreach(var key in ruleLookupkeys) {
+                    var ruleList = _ruleLookup[key];
+                    _ruleLookup[key] = ruleList.OrderBy(rule => rule.Weight).ToList();
                 }
                 _requireCreateLookup = false;
             }

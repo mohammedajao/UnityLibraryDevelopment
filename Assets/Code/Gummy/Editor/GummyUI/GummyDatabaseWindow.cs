@@ -308,8 +308,15 @@ namespace Gummy.Editor
             serializedCurrentEntry = property.GetArrayElementAtIndex(view.selectedIndex);
             if(currentEntry == null) return;
             if(serializedCurrentEntry == null) return;
+            BuildFactsDetailsView(serializedCurrentEntry);
+            // view.Rebuild();
+            Debug.Log(currentEntry.id);
+        }
+
+        public void BuildFactsDetailsView(SerializedProperty property) 
+        {
             factsDetailsView.Clear();
-            
+
             var bar = new Toolbar();
             var titleHolder = new VisualElement();
             // var title = new Label();
@@ -337,9 +344,27 @@ namespace Gummy.Editor
             bar.Add(entryIdLabel);
             factsDetailsView.Add(bar);
             factsDetailsView.Add(entryField);
+
+            var enumerator = property.GetEnumerator();
+            while(enumerator.MoveNext()) {
+                var prop = enumerator.Current as SerializedProperty;
+                Debug.Log(prop.name);
+                if(
+                    prop == null
+                    || prop.name == "id"
+                    || prop.name == "key"
+                    || prop.name == "criteria"
+                    || prop.name == "modifications"
+                    || prop.name == "size"
+                    || prop.name == "onStart"
+                    || prop.name == "onEnd"
+                    || !prop.editable
+                ) continue;
+                PropertyField newProperty = new(prop);
+                newProperty.Bind(prop.serializedObject);
+                factsDetailsView.Add(newProperty);
+            }
             factsSplitView.Add(factsDetailsView);
-            // view.Rebuild();
-            Debug.Log(currentEntry.id);
         }
 
         public void HandleTableSearch(string query) {

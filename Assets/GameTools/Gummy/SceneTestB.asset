@@ -15,8 +15,10 @@ MonoBehaviour:
   Name: SceneTestC
   facts:
   - rid: 2776060618872979458
-  - rid: 5085853729268170764
-  rules: []
+  - rid: 5085853762898362369
+  rules:
+  - rid: 5085853755287273472
+  - rid: 5085853762898362368
   events:
   - rid: 2776060618872979460
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
@@ -43,11 +45,53 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
-    - rid: 5085853729268170764
+    - rid: 5085853755287273472
+      type: {class: GummyRuleEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -1583058097
+        key: tutorial_1
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 0
+        triggers:
+          id: 0
+        onStart: []
+        onEnd: []
+    - rid: 5085853762898362368
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: 250745118
+        key: tutorial_start
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        isCancellable: 0
+        padding: 0
+        delay: 5
+        triggeredBy:
+          id: -50106142
+        triggers:
+          id: 0
+        onStart: []
+        onEnd: []
+        text: 'If you want things to go well, you''re going to have to try.
+
+'
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853762898362369
       type: {class: GummyFactEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
       data:
-        id: -1530514944
-        key: asdasd
+        id: -2115254343
+        key: guide
         scope:
           id: 0
         once: 0

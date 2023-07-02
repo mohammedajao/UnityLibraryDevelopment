@@ -59,6 +59,7 @@ namespace Gummy.Editor
                 var box = popField.Q<VisualElement>(className: "unity-base-popup-field__input");
                 UnityEditor.PopupWindow.Show(box.worldBound, new EntriesPopupContent((int id) => {
                     property.serializedObject.Update();
+                    GummyUtil.database.RequireLookup();
                     if (GummyUtil.database.GetTableNameFromID(id, out var name) && GummyUtil.database.GetEntryFromID(id, out var entry))
                     {
                         popField.value = $"{name}/{entry.key}";

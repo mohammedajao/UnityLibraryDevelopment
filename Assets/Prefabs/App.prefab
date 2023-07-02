@@ -44,4 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae76341ad69f7444397e16ddb744e15b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentSnapshot:
+    Taken: 0
+    Title: 
+    Completion: 0
+  ActiveSpeakers: {fileID: 11400000, guid: b9e228d81375f6049b47c0ed2b50c869, type: 2}
   IsEditor: 0
+  Trigger: 0

@@ -15,9 +15,10 @@ public class GummyEventBusTest : MonoBehaviour
     void Start()
     {
         Debug.Log("Trying");
+        Debug.Log(App.Instance);
         if (bus == null || provider == null) return;
         Debug.Log("Invoking event");
-        bus.Invoke(-50106142, provider.BlackboardIdentifier);
+        bus.Invoke(test, provider.BlackboardIdentifier);
     }
 
     // Update is called once per frame

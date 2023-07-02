@@ -1,0 +1,32 @@
+.unity-base-popup-field__input {
+    /* flex: 1 0 0; */
+}
+
+.gummy-reference {
+    /* margin-right: -2px;
+    margin-left: 3px;
+    margin-top: 1px; */
+}
+
+/* .gummy-reference PopupField > * {
+    justify-content: flex-start;
+} */
+
+.unity-base-popup-field__label {
+    /* width: 40%; */
+    /* min-width: 120px; */
+}
+
+.gummy-popup-item {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    padding-right: 4px;
+}
+
+.gummy-popup-table {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    padding-right: 4px;
+}

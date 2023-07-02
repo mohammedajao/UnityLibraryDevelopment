@@ -13,21 +13,41 @@ MonoBehaviour:
   m_Name: SceneTestB
   m_EditorClassIdentifier: 
   Name: SceneTestC
-  facts: []
+  facts:
+  - rid: 2776060618872979458
+  - rid: 5085853729268170764
   rules: []
   events:
-  - rid: 2776060246929440768
+  - rid: 2776060618872979460
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
     id: -50106142
   references:
     version: 2
     RefIds:
-    - rid: 2776060246929440768
+    - rid: 2776060618872979458
+      type: {class: GummyScopeEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 1267841521
+        key: global
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+    - rid: 2776060618872979460
       type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
       data:
         id: -50106142
         key: on_enter
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+    - rid: 5085853729268170764
+      type: {class: GummyFactEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -1530514944
+        key: asdasd
         scope:
           id: 0
         once: 0

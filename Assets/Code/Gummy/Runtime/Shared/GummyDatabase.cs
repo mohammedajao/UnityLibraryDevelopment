@@ -27,6 +27,7 @@ namespace Gummy.Shared
         private readonly Dictionary<int, GummyEventEntry> _eventLookup = new();
         private readonly Dictionary<int, List<GummyRuleEntry>> _ruleLookup = new();
         private readonly Dictionary<int, GummyBaseEntry> _entryLookup = new();
+        private readonly Dictionary<int, string> _entryTableLookup = new();
 
         [SerializeReference] public List<GummyCollection> tables = new();
         [SerializeReference] private StringGummyCollectionMap _setupTables = new();
@@ -64,6 +65,20 @@ namespace Gummy.Shared
 
         public List<GummyCollection> GetDirtyTables() => dirtyTables.Select(kvp => kvp.Value).ToList();
         public void ClearDirtyTables() { dirtyTables.Clear(); }
+
+        public bool GetTableNameFromID(int id, out string name)
+        {
+            CreateLookupIfNecessary();
+            name = null;
+            return _entryTableLookup.TryGetValue(id, out name);
+        }
+
+        public bool GetEntryFromID(int id, out GummyBaseEntry entry)
+        {
+            CreateLookupIfNecessary();
+            entry = null;
+            return _entryLookup.TryGetValue(id, out entry);
+        }
 
         public void RecreateTables()
         {
@@ -182,6 +197,7 @@ namespace Gummy.Shared
                     {
                         _eventLookup[eventEntry.id] = eventEntry;
                         _entryLookup[eventEntry.id] = eventEntry;
+                        _entryTableLookup[eventEntry.id] = table.Name;
                     }
                     foreach(var ruleEntry in table.rules)
                     {
@@ -189,10 +205,12 @@ namespace Gummy.Shared
                             _ruleLookup[ruleEntry.triggeredBy].Add(ruleEntry);
                         }
                         _entryLookup[ruleEntry.id] = ruleEntry;
+                        _entryTableLookup[ruleEntry.id] = table.Name;
                     }
                     foreach(var factEntry in table.facts) 
                     {
                         _entryLookup[factEntry.id] = factEntry;
+                        _entryTableLookup[factEntry.id] = table.Name;
                     }
                 }
                 foreach(var kvp in _ruleLookup) {

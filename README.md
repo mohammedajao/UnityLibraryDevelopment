@@ -1,6 +1,6 @@
 # About
 Gummy is a database that offers event decoupling and a rudimentary CAD (Context-Aware Dialogue) system for Unity games.
-This code takes heavy inspiration from Firewatch, Valve's GDC talk, and aarthificial's CAD system.
+This code takes heavy inspiration from Firewatch's system, Valve's GDC talk, and aarthificial's CAD system.
 
 Rules are the core of Gummy. They determine the logical flow of events and fact mutations.
 Events are simply ids that are mapped to invokable callbacks.
@@ -22,10 +22,15 @@ Data Flow Breakdown:
 As dictionaries grow, they become slower. Thus, we want to apply our entries (facts, rules, or events) to blackboards (dictionaries mapping entry ids to values) so we have a small dictionary/blackboard size and have quick hashtable operations. 
 
 **How come the code doesn't work when I run the tool?**
-It's not supposed to. This repo isn't a tool and it doesn't contain all the settings I used. It's just a past development project. If I upload the completed version at some point, feel free to use it. The point is the idea. While I do have a working version, I also have a set of serialized data and my project is set up properly for this code. This repo is not a guide or official library/framework but a showcase. The data flow explains how it works and you can use the logic to make your own.
+My project is set up to work with the tool. Check your project. 
 
 **Motivation**
 I made this mainly to learn. I just saw the code already developed by other users and built the rest based on what was missing.
+
+**Important Notes**
+This is an educational project. It is not representative of clean code or how to properly code. It is not reflective of my coding pratices either. This is not production-ready tool but I hope it serves as motivation for others, helps as a basis, and more importantly, it was a fun explorative journey for me to learn how to build this. 
+
+Unity's documentation is very lacking in guidance and the community isn't as educated on UI in its public spaces. Thus, a lot of my code came from looking at the source code for inspiration. And for my younger colleagues on my Github looking at this, remember it's important for things to work first. Clean up can happen later. Get it out there and working because nobody cares about how pretty it is on the inside.
 
 # Next Steps
 - Upload BlackboardModification definition

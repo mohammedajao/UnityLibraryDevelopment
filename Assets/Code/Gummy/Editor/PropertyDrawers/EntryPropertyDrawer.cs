@@ -12,9 +12,9 @@ using Gummy.Entries;
 
 namespace Gummy.Editor
 {
-    // [CustomPropertyDrawer(typeof(GummyBaseEntry))]
-    // public class GummyBaseEntryDrawer : PropertyDrawer
-    // {
+    [CustomPropertyDrawer(typeof(GummyBaseEntry))]
+    public class GummyBaseEntryDrawer : PropertyDrawer
+    {
 
     //     private Type GetEntryDescriptorType(GummyBaseEntry entry)
     //     {
@@ -42,22 +42,29 @@ namespace Gummy.Editor
     //         return result;
     //     }
 
-    //     public override VisualElement CreatePropertyGUI(SerializedProperty property)
-    //     {
-    //         var entry = (GummyBaseEntry)property.boxedValue;
-    //         var container = new VisualElement();
-    //         container.AddToClassList("gummy-entry");
-    //         return BuildUI(container, property);
-    //     }
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        {
+            var entry = (GummyBaseEntry)property.boxedValue;
+            var container = new VisualElement();
+            // container.AddToClassList("gummy-entry");
+            return BuildUI(container, property);
+        }
 
-    //     private VisualElement BuildUI(VisualElement root, SerializedProperty property)
-    //     {
-    //         VisualElement alignmentContainer = new();
-    //         alignmentContainer.AddToClassList("align-horizontal");
-    //         Label title = new("<EntryTitle>");
-    //         alignmentContainer.Add(title);
-    //         return root;
-    //     }
+        private VisualElement BuildUI(VisualElement root, SerializedProperty property)
+        {
+            Label title = new("<EntryTitle>");
+            root.Add(title);
+            return root;
+        }
+
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label )
+        {
+            var res = GUI.Button( position , "test" );
+            if ( res )
+            {
+                Debug.Log( "test" );
+            }
+        }
 
     //     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     //     {
@@ -91,6 +98,6 @@ namespace Gummy.Editor
 
     //     public override float GetPropertyHeight (SerializedProperty property, GUIContent label) {
     //         return EditorGUIUtility.singleLineHeight;
-    //     }
-    // }
+        // }
+    }
 }

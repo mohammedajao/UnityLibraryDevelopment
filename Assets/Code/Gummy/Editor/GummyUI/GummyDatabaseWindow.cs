@@ -36,6 +36,7 @@ namespace Gummy.Editor
         static SerializedObject serializedCurrentTable;
         static GummyBaseEntry currentEntry;
         static SerializedProperty serializedCurrentEntry;
+        static ListView currentListView;
 
         static string currentEntrySearchValue;
         static string currentTableSearchValue;
@@ -91,8 +92,13 @@ namespace Gummy.Editor
             return tableListView;
         }
 
-        public ContextualMenuManipulator CreateEntryMenu(GummyCollection table, Type baseType, List<GummyBaseEntry> source, ListView visualList)
-        {
+        public ContextualMenuManipulator CreateEntryMenu(
+            GummyCollection table,
+            Type baseType,
+            List<GummyBaseEntry> source,
+            ListView visualList,
+            SerializedProperty property
+        ) {
             List<EntryDescriptor> descriptors = new();
             foreach(var kvp in DescriptorCache.Descriptors)
             {
@@ -109,6 +115,9 @@ namespace Gummy.Editor
                         nentry.key = $"<{descriptors[0].Name}>";
                         descriptors[0].HandleEntryCreated(nentry, table);
                         source.Add(nentry);
+                        property.serializedObject.Update();
+                        property.serializedObject.ApplyModifiedProperties();
+                        database.RequireLookup();
                         visualList.Rebuild();
                     });
                 } else {
@@ -120,6 +129,9 @@ namespace Gummy.Editor
                             nentry.key = $"<{desc.Name}>";
                             desc.HandleEntryCreated(nentry, table);
                             source.Add(nentry);
+                            property.serializedObject.Update();
+                            property.serializedObject.ApplyModifiedProperties();
+                            database.RequireLookup();
                             visualList.Rebuild();
                         });
                     }
@@ -146,7 +158,7 @@ namespace Gummy.Editor
             entriesListView.headerTitle = title;
             entriesListView.showFoldoutHeader = true;
             entriesListView.showBoundCollectionSize = false;
-            entriesListView.selectedIndex = _selectedEntryIndex;
+            // entriesListView.selectedIndex = _selectedEntryIndex;
             entriesListView.makeItem = () => HandleEntryViewItemCreated();
             entriesListView.bindItem = (item, index) => HandleEntryViewBind(item, index, entries, property, entriesListView);
             entriesListView.itemsSource = entries;
@@ -156,7 +168,7 @@ namespace Gummy.Editor
 
             var target = entriesListView.Q<Toggle>();
             target.focusable = true;
-            target.AddManipulator(CreateEntryMenu(currentTable, baseType, entries, entriesListView));
+            target.AddManipulator(CreateEntryMenu(currentTable, baseType, entries, entriesListView, property));
             return root;
         }
 
@@ -208,6 +220,11 @@ namespace Gummy.Editor
                     }
                 }
             );
+            title.RegisterCallback<KeyDownEvent>((e) => {
+                if(e.keyCode == KeyCode.Return) {
+                    title.Blur();
+                }
+            });
             GummyUtil.OnEntryChanged += (int id, IGummyBlackboard context) => {
                 if (id == entry.id) {
                     int currentValue = database.provider.GetBlackboard(entry.scope, context).Get(entry.id);
@@ -218,10 +235,35 @@ namespace Gummy.Editor
                 }
             };
             root.AddManipulator(new ContextualMenuManipulator((ContextualMenuPopulateEvent evt) => {
-                Debug.Log("Right click!");
-                evt.menu.AppendAction("Create", (x) => {});
+                List<GummyCollection> targetableTables = new();
+                evt.menu.AppendAction("Create", (x) => {
+                    var descriptorType = DescriptorCache.Instance.GetEntryDescriptorType(entry);
+                    var descriptor = DescriptorCache.Descriptors[descriptorType];
+                    var obj = Activator.CreateInstance(descriptor.RealType);
+                    var nentry = (GummyBaseEntry)obj;
+                    nentry.id = database.GenerateID();
+                    nentry.key = $"<{descriptor.Name}>";
+                    descriptor.HandleEntryCreated(nentry, currentTable);
+                    entries.Add(nentry);
+                    visualList.Rebuild();
+                });
+
+                foreach(var table in database.tables) {
+                    if(table.Name == currentTable.Name) continue;
+                    evt.menu.AppendAction("Move To/" + table.Name, (x) => {
+                        table.AddEntry(entry);
+
+                        property.serializedObject.Update();
+                        entries.RemoveAt(index);
+                        property.DeleteArrayElementAtIndex(index);
+                        property.serializedObject.ApplyModifiedProperties();
+                        database.RequireLookup();
+                        visualList.Rebuild();
+                    });
+                }
                 evt.menu.AppendAction("Move To", (x) => {});
                 evt.menu.AppendAction("Remove", (x) => {
+                    if(currentEntry == null) return;
                     if(currentEntry.id == entries[index].id) {
                         factsDetailsView.Clear();
                     }
@@ -229,7 +271,9 @@ namespace Gummy.Editor
                     entries.RemoveAt(index);
                     property.DeleteArrayElementAtIndex(index);
                     property.serializedObject.ApplyModifiedProperties();
+                    database.RequireLookup();
 
+                    factsDetailsView.Clear();
                     var bar = new Toolbar();
                     var title = new Label();
                     title.text = currentTable.Name;
@@ -254,9 +298,14 @@ namespace Gummy.Editor
         }
 
         public void HandleEntrySelected(IEnumerable<object> selectedItems, ListView view, SerializedProperty property) {
+            if(currentListView != null && currentListView != view) {
+                currentListView.ClearSelection();
+            }
+            currentListView = view;
+            if(view.selectedIndex == -1) return;
             _selectedEntryIndex = view.selectedIndex;
-            currentEntry = selectedItems.First() as GummyBaseEntry;
-            serializedCurrentEntry = property.GetArrayElementAtIndex(_selectedEntryIndex);
+            currentEntry = selectedItems.FirstOrDefault() as GummyBaseEntry;
+            serializedCurrentEntry = property.GetArrayElementAtIndex(view.selectedIndex);
             if(currentEntry == null) return;
             if(serializedCurrentEntry == null) return;
             factsDetailsView.Clear();
@@ -274,6 +323,10 @@ namespace Gummy.Editor
             bar.AddToClassList("fdv-bar");
             entryIdLabel.AddToClassList("fdv-bar-id");
 
+            var entryField = new PropertyField(property);
+            // var obj = new SerializedObject(currentEntry);
+            // entryField.Bind(property.serializedObject);
+
             // tableTitle.text = currentTable.Name;
             tableTitle.BindProperty(serializedCurrentTable.FindProperty("Name"));
             entryTitle.text = $"/ {currentEntry.key}";
@@ -283,7 +336,9 @@ namespace Gummy.Editor
             bar.Add(titleHolder);
             bar.Add(entryIdLabel);
             factsDetailsView.Add(bar);
+            factsDetailsView.Add(entryField);
             factsSplitView.Add(factsDetailsView);
+            // view.Rebuild();
             Debug.Log(currentEntry.id);
         }
 

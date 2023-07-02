@@ -842,6 +842,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bus: {fileID: 11400000, guid: 5e428c4daf7c60d4e9d45092b782c7d7, type: 2}
   provider: {fileID: 11400000, guid: 5edd1ffdf6644b848b74bd3651f4cfaa, type: 2}
+  test:
+    id: -1530514944
 --- !u!1 &1736406688
 GameObject:
   m_ObjectHideFlags: 0

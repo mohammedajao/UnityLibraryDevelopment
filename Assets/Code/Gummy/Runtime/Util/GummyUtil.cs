@@ -23,14 +23,12 @@ namespace Gummy.Util {
         [InitializeOnLoadMethod]
         public static void InitializeIfNeeded()
         {
+            // if(database == null) {
+            //     database = Resources.Load("GummyDatabase") as GummyDatabase;
+            //     serializedDatabase = new SerializedObject(database);
+            // }
             if(database == null) {
-                database = Resources.Load("GummyDatabase") as GummyDatabase;
-                serializedDatabase = new SerializedObject(database);
-            }
-            if(database == null) {
-                var assets = AssetDatabase.FindAssets("GummyDatabase", new[] {
-                    "Assets/GameTools/Gummy"
-                });
+                var assets = AssetDatabase.FindAssets("t:" + typeof(GummyDatabase).FullName);
                 if(assets.Length == 0) return;
                 var asset = assets[0];
                 var assetPath = AssetDatabase.GUIDToAssetPath(asset);

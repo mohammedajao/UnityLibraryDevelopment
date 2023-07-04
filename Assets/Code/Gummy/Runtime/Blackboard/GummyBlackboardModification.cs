@@ -1,13 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Gummy.References;
 using Gummy.Tools;
 using Gummy.Shared;
+using Gummy.Util;
 
 namespace Gummy.Blackboard
 {
-    public class GummyBlackboardModification : GummyModification
+    [Serializable]
+    public class GummyBlackboardModification
     {
         internal enum ModificationMode
         {
@@ -20,6 +23,7 @@ namespace Gummy.Blackboard
 
         public void Mutate(GummyDatabase database)
         {
+            if(reference == 0) return;
             var board = database.GetBlackboardForEntry(reference);
             if(mode == ModificationMode.SET) {
                 board.Set(reference, number);
@@ -27,6 +31,7 @@ namespace Gummy.Blackboard
                 var currentValue = board.Get(reference);
                 board.Set(reference, currentValue + number);
             }
+            GummyUtil.RaiseEntryChanged(reference, board);
         }
     }
 }

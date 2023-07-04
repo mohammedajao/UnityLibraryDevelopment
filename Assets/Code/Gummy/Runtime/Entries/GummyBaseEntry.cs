@@ -14,6 +14,7 @@ namespace Gummy.Entries
         public int id;
         public string key;
 
+        [GummyEntryFilter(EntryType = GummyEntryFilterType.Scope)]
         public GummyEntryReference scope;
 
         public bool once;

@@ -14,10 +14,11 @@ namespace Gummy.Tools
     public class GummyEvent
     {
         [SerializeField]
+        [GummyEntryFilter(EntryType = GummyEntryFilterType.Event|GummyEntryFilterType.Rule)]
         public GummyEntryReference eventReference; // rule or entry
 
         [SerializeField]
-        public GummyBlackboard context;
+        public IGummyBlackboard context;
 
         public void Invoke(GummyEventBus eventBus)
         {
@@ -40,6 +41,7 @@ namespace Gummy.Tools
         [Serializable]
         internal struct Triggerable
         {
+            [GummyEntryFilter(EntryType = GummyEntryFilterType.Event)]
             public GummyEntryReference reference;
         }
     }

@@ -27,7 +27,7 @@ public class EntriesPopup : EditorWindow
         // Debug.Log(rect.position);
         if (GUILayout.Button("Popup Options", GUILayout.Width(200)))
         {
-            UnityEditor.PopupWindow.Show(buttonRect, new EntriesPopupContent((int id) => {}));
+            UnityEditor.PopupWindow.Show(buttonRect, new EntriesPopupContent((int id) => {}, null));
         }
         if (Event.current.type == EventType.Repaint) buttonRect = GUILayoutUtility.GetLastRect();
     }

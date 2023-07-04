@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 using UnityEditor.UIElements;
 using Gummy.Entries;
+using Gummy.References;
 using Gummy.Util;
 using Gummy.Shared;
 
@@ -19,22 +20,38 @@ public class EntriesPopupContent : PopupWindowContent
 {
     EPCSelection callback;
     StyleSheet mainSheet;
-    public EntriesPopupContent(EPCSelection cb) {
+    GummyEntryFilterAttribute metadata;
+    public EntriesPopupContent(EPCSelection cb, GummyEntryFilterAttribute fieldInfo) {
         callback = cb;
+        metadata = fieldInfo;
         mainSheet = Resources.Load<StyleSheet>("GummyReferenceStyle");
         gcGroupData.Clear();
         foreach(var table in GummyUtil.database.tables) {
             List<EntryData> fts = new();
             List<EntryData> rls = new();
             List<EntryData> evt = new();
-            foreach(var entry in table.facts) {
-                fts.Add(new EntryData(entry.key, entry.id));
+
+            if(metadata != null && metadata.TableName != null && !table.Name.Equals(metadata.TableName)) continue;
+            int entryTypeValue = metadata != null ? (int)metadata.EntryType : 15;
+
+            if(entryTypeValue == 2 || entryTypeValue == 7 || entryTypeValue == 11 || entryTypeValue == 15 || entryTypeValue == 17) {
+                foreach(var entry in table.facts) {
+                    if(
+                        entryTypeValue == 17
+                        && (entry.GetType() != typeof(GummyScopeEntry) && !entry.GetType().IsSubclassOf(typeof(GummyScopeEntry)))
+                    ) continue;
+                    fts.Add(new EntryData(entry.key, entry.id));
+                }
             }
-            foreach(var entry in table.rules) {
-                rls.Add(new EntryData(entry.key, entry.id));
+            if(entryTypeValue == 5 || entryTypeValue == 7 || entryTypeValue == 13 || entryTypeValue == 15) {
+                foreach(var entry in table.rules) {
+                    rls.Add(new EntryData(entry.key, entry.id));
+                }
             }
-            foreach(var entry in table.events) {
-                evt.Add(new EntryData(entry.key, entry.id));
+            if(entryTypeValue == 9 || entryTypeValue == 11 || entryTypeValue == 13 || entryTypeValue == 15) {
+                foreach(var entry in table.events) {
+                    evt.Add(new EntryData(entry.key, entry.id));
+                }
             }
             List<GummyCollectionSubdata> subdata = new();
             if(fts.Count > 0) subdata.Add(new GummyCollectionSubdata("Facts", fts));
@@ -44,6 +61,7 @@ public class EntriesPopupContent : PopupWindowContent
             gcGroupData.Add(gcData);
         }
     }
+
     public override void OnGUI(Rect rect)
     {
 

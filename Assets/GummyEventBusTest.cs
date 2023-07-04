@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Gummy.Entries;
 using Gummy.References;
 using Gummy.Shared;
 
@@ -10,7 +11,9 @@ public class GummyEventBusTest : MonoBehaviour
     public GummyEventBus bus;
     public GameBlackboardProvider provider;
     // Start is called before the first frame update
+    //
 
+    [GummyEntryFilter(EntryType = GummyEntryFilterType.Event)]
     public GummyEntryReference test;
     void Start()
     {

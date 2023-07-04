@@ -19,8 +19,11 @@ MonoBehaviour:
   rules:
   - rid: 5085853755287273472
   - rid: 5085853762898362368
+  - rid: 5085853765612339201
+  - rid: 5085853798605258753
   events:
   - rid: 2776060618872979460
+  - rid: 5085853798605258752
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
     id: -50106142
@@ -36,6 +39,7 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
+        modifications: []
     - rid: 2776060618872979460
       type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
       data:
@@ -45,6 +49,7 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
+        modifications: []
     - rid: 5085853755287273472
       type: {class: GummyRuleEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
       data:
@@ -54,6 +59,7 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
+        modifications: []
         isCancellable: 0
         padding: 0
         delay: 0
@@ -71,14 +77,27 @@ MonoBehaviour:
         scope:
           id: 0
         once: 0
-        criteria: []
+        criteria:
+        - reference:
+            id: -2115254343
+          mode: 0
+          comparand: 6
+        modifications:
+        - reference:
+            id: -2115254343
+          mode: 0
+          number: 1
+        - reference:
+            id: -2115254343
+          mode: 0
+          number: 1
         isCancellable: 0
         padding: 0
-        delay: 5
+        delay: 2
         triggeredBy:
           id: -50106142
         triggers:
-          id: 0
+          id: 389936577
         onStart: []
         onEnd: []
         text: 'If you want things to go well, you''re going to have to try.
@@ -96,3 +115,68 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
+        modifications: []
+    - rid: 5085853765612339201
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: -2101593642
+        key: tutorial_start_2
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: -635599589
+          mode: 1
+          number: 20
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: -50106142
+        triggers:
+          id: 389936577
+        onStart: []
+        onEnd: []
+        text: Try it first, then come to me!
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853798605258752
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 389936577
+        key: tutorial_start_end
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []
+    - rid: 5085853798605258753
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: -346052091
+        key: tutorial_2
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: -1330552686
+          mode: 0
+          number: 5
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 389936577
+        triggers:
+          id: 0
+        onStart: []
+        onEnd: []
+        text: Wow, this is epic! You have a chain of blackboard contextual events!
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0

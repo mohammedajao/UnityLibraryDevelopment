@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,9 +7,10 @@ using Gummy.Blackboard;
 
 namespace Gummy.Tools
 {
+    [Serializable]
     public class GummyModification
     {
-        public List<GummyBlackboardModification> modifications = new();
+        [SerializeField] public List<GummyBlackboardModification> modifications = new();
 
         public void Modify(GummyDatabase database)
         {

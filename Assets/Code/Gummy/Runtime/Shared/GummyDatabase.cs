@@ -24,6 +24,8 @@ namespace Gummy.Shared
         [SerializeField] public IGummyDatabaseProvider provider;
         public GummyEventBus eventBus;
 
+        public RuntimeWorkerSet RuntimeWorker;
+
         private readonly Dictionary<int, GummyEventEntry> _eventLookup = new();
         private readonly Dictionary<int, List<GummyRuleEntry>> _ruleLookup = new();
         private readonly Dictionary<int, GummyBaseEntry> _entryLookup = new();
@@ -44,9 +46,9 @@ namespace Gummy.Shared
             Debug.Log("Running bindings");
             foreach(var kvp in _eventLookup) {
                 var eventEntry = kvp.Value;
-                Debug.Log($"Binding event {eventEntry.id}");
                 eventBus.AddListener(eventEntry.id, HandleEntryEvent);
             }
+            // GummyUtil.OnGummyEventRaise += 
         }
 
         public void RequireLookup() {
@@ -58,7 +60,6 @@ namespace Gummy.Shared
             CreateLookupIfNecessary(true);
             foreach(var kvp in _eventLookup) {
                 var eventEntry = kvp.Value;
-                Debug.Log($"Binding {eventEntry.id}");
                 eventBus.AddListener(eventEntry.id, HandleEntryEvent);
             }
         }
@@ -108,21 +109,33 @@ namespace Gummy.Shared
 
         private void HandleEntryEvent(int id, IGummyBlackboard context)
         {
-            Debug.Log($"[Gummy] Handling event {id}");
+            var worker = RuntimeWorker.GetWorker();
+            if(worker == null) return;
             if(_eventLookup.TryGetValue(id, out var entry) && !TestEntry(entry, context)) return;
+            for(int i = 0; i < entry.modifications.Length; i++) {
+                entry.modifications[i].Mutate(this);
+            }
             if(TryGetRule(id, context, out GummyRuleEntry match)) {
                 ApplyEntry(match, context);
-                var enumerator = match.Execute();
-                while(enumerator.MoveNext()) {
-                    var possibleEvent = enumerator.Current;
-                    if (possibleEvent is int) {
-                        int eventID = (int)possibleEvent;
-                        eventBus.Invoke(eventID, context);
-                    }
-                }
+                worker.StartCoroutine(RunRuleEntry(match, context));
                 return;
-            }
+            } 
             ApplyEntry(entry, context);
+        }
+
+        private IEnumerator RunRuleEntry(GummyRuleEntry rule, IGummyBlackboard context)
+        {
+            for (int i = 0; i < rule.onStart.Length; i++) {
+                eventBus.Invoke(rule.onStart[i].reference, context);
+            }
+            yield return rule.Execute();
+            for (int i = 0; i < rule.onEnd.Length; i++) {
+                eventBus.Invoke(rule.onEnd[i].reference, context);
+            }
+            for(int i = 0; i < rule.modifications.Length; i++) {
+                rule.modifications[i].Mutate(this);
+            }
+            eventBus.Invoke(rule.triggers, context);
         }
 
         public bool TryGetRule(int id, IGummyBlackboard context, out GummyRuleEntry match)
@@ -144,12 +157,12 @@ namespace Gummy.Shared
                         initialIndex = index;
                     }
 
-                    if(response.Weight == targetWeight) {
+                    if(response.Weight == targetWeight && TestEntry(response, context)) {
                         rules.Add(response);
                         numberOfMatches++;
                     }
                 }
-
+                if(rules.Count == 0) return false;
                 var rnd = new System.Random();
                 int outputIndex = rnd.Next(rules.Count);
                 match = rules[outputIndex];
@@ -176,7 +189,10 @@ namespace Gummy.Shared
 
         public bool TestEntry(GummyBaseEntry entry, IGummyBlackboard context)
         {
-            if (entry.once && entry.scope != null && provider.GetBlackboard(entry.scope, context).Get(entry.id) != 0) {
+            if (
+                entry.once 
+                && provider.GetBlackboard(entry.scope, context).Get(entry.id) != 0
+            ) {
                 return false;
             }
             if(!_entryLookup.TryGetValue(entry.id, out var fact)) return false;
@@ -188,11 +204,9 @@ namespace Gummy.Shared
 
         private void CreateLookupIfNecessary(bool force = false)
         {
-            Debug.Log($"Is lookup required? {_requireCreateLookup}");
             if(_requireCreateLookup || force) {
                 foreach(var table in tables)
                 {
-                    Debug.Log($"Create lookup for table {table.Name}");
                     foreach(var eventEntry in table.events)
                     {
                         _eventLookup[eventEntry.id] = eventEntry;

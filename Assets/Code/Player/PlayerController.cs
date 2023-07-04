@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using Gummy.References;
+using Gummy.Shared;
 
 public class PlayerController : MonoBehaviour
 {
+
+
+    public GummyEntryReference theEvent;
+    public GummyEventBus eventBus;
+    public GameBlackboardProvider provider;
 
     public PlayerState State { get; private set; } = PlayerState.Movement;
 
@@ -142,6 +148,8 @@ public class PlayerController : MonoBehaviour
             {
                 _jumpsLeft -= 1;
                 _wasOnTheGround = false;
+                Debug.Log("Running jump event");
+                eventBus.Invoke(theEvent.id, provider.BlackboardIdentifier);
             }
 
             velocityChange.y = (-fallSpeed - previousVelocity.y) / 8;

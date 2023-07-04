@@ -52,7 +52,7 @@ namespace Gummy.Shared
         public void Invoke(int id, IGummyBlackboard context)
         {
             if (id == 0) return;
-
+            
             GlobalEvent?.Invoke(id, context);
             if(_events.TryGetValue(id, out var callbacks))
             {

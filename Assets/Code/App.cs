@@ -18,6 +18,7 @@ public class App : UnitySingleton<App>
     public SaveSnapshotData currentSnapshot;
     private string _activeScene;
     public SpeakerSet ActiveSpeakers;
+    public RuntimeWorkerSet CoroutineWorker;
 
     public bool IsEditor = false;
 
@@ -69,6 +70,7 @@ public class App : UnitySingleton<App>
         // gameObject.AddComponent<SaveManagerService>();
         // SaveService = GetComponent<SaveManagerService>();
         // SceneManager.activeSceneChanged += SyncSaveContextOnSceneChange;
+        CoroutineWorker.BindWorker(this.gameObject);
     }
 
     protected override void SingletonOnEnable()

@@ -13,6 +13,7 @@ namespace Gummy.Editor
         public override GummyEntryType Type { get; protected set; } = GummyEntryType.Fact;
         public override bool Optional => false;
         public override string Color => "#d1863f";
+        public override bool HasCustomization => false;
 
         public override void HandleEntryCreated(GummyBaseEntry entry, GummyCollection table)
         {

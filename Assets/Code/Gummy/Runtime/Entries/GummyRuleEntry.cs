@@ -6,6 +6,7 @@ using Gummy.Blackboard;
 using Gummy.References;
 using Gummy.Shared;
 using Gummy.Tools;
+using Gummy.Util;
 
 namespace Gummy.Entries
 {
@@ -17,9 +18,11 @@ namespace Gummy.Entries
         [SerializeField] private float delay;
 
         [RecreateLookup]
+        [GummyEntryFilter(EntryType = GummyEntryFilterType.Event, AllowEmpty = false)]
         public GummyEntryReference triggeredBy;
 
         [RecreateLookup]
+        [GummyEntryFilter(EntryType = GummyEntryFilterType.Event)]
         public GummyEntryReference triggers;
 
         public override GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.RuleDescriptor;
@@ -38,20 +41,9 @@ namespace Gummy.Entries
             return this.Weight.CompareTo(other.Weight);
         }
 
-        // For dialogue, we'll override this function
-        // The onStart/onEnd events will not be invoked in the case of dialogue
-        // Instead, the Run(...) method will be called
-        // Execute will call it prior to onEnd in the overriden variation
-        // It will do so by fetching the speaker gameObject and passing the Run function to it
-        // The GameObject will start a new coroutine and pass the required params to Run
         public virtual IEnumerator Execute()
         {
-            for (int i = 0; i < onStart.Length; i++) {
-                yield return onStart[i];
-            }
-            for (int i = 0; i < onEnd.Length; i++) {
-                yield return onEnd[i];
-            }
+            yield return new WaitForSeconds(delay);
             yield break;
         }
 

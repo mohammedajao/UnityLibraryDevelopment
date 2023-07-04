@@ -1,0 +1,31 @@
+.gummy-tabs-bar {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+    border-bottom-width: 1px;
+    border-bottom-color: black;
+    overflow: visible;
+}
+
+.gummy-ui-tab {
+    border-color: black;
+    padding: 3px;
+}
+
+.gummy-ui-current-tab {
+    padding: 4px;
+    border-bottom-width: 0;
+    bottom: -1px;
+    background-color: var(--unity-colors-tab-background);
+    border-right-width: 1px;
+    border-left-width: 1px;
+    border-top-width: 1px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.gummy-tab-menu-content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}

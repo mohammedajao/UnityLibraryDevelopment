@@ -17,23 +17,15 @@ public class DialogueEntry : GummyRuleEntry
             Debug.LogWarningFormat("Skipping dialogue. No suitable speaker found: ({0})", speaker.id);
             yield break;
         }
-        for (int i = 0; i < onStart.Length; i++) {
-            yield return onStart[i];
-        }
-        yield return dialogueSpeaker.StartCoroutine(dialogueSpeaker.Execute(this));
-        for (int i = 0; i < onEnd.Length; i++) {
-            yield return onEnd[i];
-        }
+        // yield return dialogueSpeaker.StartCoroutine(dialogueSpeaker.Execute(this));
+        yield return dialogueSpeaker.Execute(this);
         yield break;
     }
 
     public override IEnumerator Execute()
     {
-        IEnumerator runner = Run();
-        while(runner.MoveNext()) {
-            var current = runner.Current;
-            yield return current;
-        }
+        yield return base.Execute();
+        yield return Run();
         yield break;
     }
     

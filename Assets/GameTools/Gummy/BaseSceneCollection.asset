@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: BaseSceneCollection
   m_EditorClassIdentifier: 
   Name: TestSceneTable
-  facts: []
+  facts:
+  - rid: 5085853798605258759
   rules: []
   events:
   - rid: 2776060246575284224
+  - rid: 5085853798605258760
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
     id: -1040841110
@@ -32,3 +34,28 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
+        modifications: []
+    - rid: 5085853798605258759
+      type: {class: GummyFactEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -1212866660
+        key: player_jumps
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []
+    - rid: 5085853798605258760
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -532845783
+        key: player_jumped
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: -1212866660
+          mode: 0
+          number: 1

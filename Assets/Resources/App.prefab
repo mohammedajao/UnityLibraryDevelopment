@@ -49,5 +49,6 @@ MonoBehaviour:
     Title: 
     Completion: 0
   ActiveSpeakers: {fileID: 11400000, guid: b9e228d81375f6049b47c0ed2b50c869, type: 2}
+  CoroutineWorker: {fileID: 11400000, guid: 48d8e4dda1223aa419cc692e654e49f7, type: 2}
   IsEditor: 0
   Trigger: 0

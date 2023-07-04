@@ -323,14 +323,17 @@ namespace Gummy.Editor
             var tableTitle = new Label();
             var entryTitle = new Label();
             var entryIdLabel = new Label();
+            var fdvContent = new ScrollView();
+            var fdvSpacer = new VisualElement();
 
             tableTitle.name = "fdv-table-title";
             entryTitle.name = "fdv-entry-title";
             titleHolder.AddToClassList("fdv-title-holder");
             bar.AddToClassList("fdv-bar");
             entryIdLabel.AddToClassList("fdv-bar-id");
+            fdvContent.AddToClassList("fdv-content");
+            fdvSpacer.AddToClassList("fdv-spacer");
 
-            var entryField = new PropertyField(property);
             // var obj = new SerializedObject(currentEntry);
             // entryField.Bind(property.serializedObject);
 
@@ -343,26 +346,51 @@ namespace Gummy.Editor
             bar.Add(titleHolder);
             bar.Add(entryIdLabel);
             factsDetailsView.Add(bar);
-            factsDetailsView.Add(entryField);
+
+            var descriptorType = DescriptorCache.Instance.GetEntryDescriptorType(currentEntry);
+            var descriptor = DescriptorCache.Descriptors[descriptorType];
+
+            var criteriaSection = new VisualElement();
+            var modificationSection = new VisualElement();
+
+            Debug.Log(property.FindPropertyRelative("id").boxedValue);
 
             var enumerator = property.GetEnumerator();
-            while(enumerator.MoveNext()) {
+
+            var endOfChildrenIteration = property.GetEndProperty();
+            while(enumerator.MoveNext() && !SerializedProperty.EqualContents(property, endOfChildrenIteration)) {
                 var prop = enumerator.Current as SerializedProperty;
-                Debug.Log(prop.name);
                 if(
                     prop == null
+                    || prop.depth > 2
                     || prop.name == "id"
                     || prop.name == "key"
-                    || prop.name == "criteria"
-                    || prop.name == "modifications"
                     || prop.name == "size"
                     || prop.name == "onStart"
                     || prop.name == "onEnd"
+                    || prop.name == "data"
                     || !prop.editable
                 ) continue;
                 PropertyField newProperty = new(prop);
                 newProperty.Bind(prop.serializedObject);
-                factsDetailsView.Add(newProperty);
+
+                if(prop.name == "criteria") {
+                    criteriaSection.Add(newProperty);
+                } else if(prop.name == "modifications") {
+                    modificationSection.Add(newProperty);
+                } else {
+                    fdvContent.Add(newProperty);
+                }
+            }
+
+            factsDetailsView.Add(fdvContent);
+            factsDetailsView.Add(fdvSpacer);
+
+            if(descriptor.HasCustomization) {
+                var pillMenu = new GummyTabMenu(factsDetailsView);
+
+                pillMenu.AddNewTab("Criteria", criteriaSection);
+                pillMenu.AddNewTab("Modifications", modificationSection);
             }
             factsSplitView.Add(factsDetailsView);
         }
@@ -461,6 +489,7 @@ namespace Gummy.Editor
             factsSplitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
             factsPane = new VisualElement();
             factsDetailsView = new VisualElement();
+            factsDetailsView.style.overflow = Overflow.Hidden;
             var tablesListView = CreateGummyTablesListView();
 
             tableSearchbar.RegisterCallback<ChangeEvent<string>>(e => {
@@ -471,6 +500,8 @@ namespace Gummy.Editor
 
             tablePane.AddToClassList("gummy-pane");
             factsPane.AddToClassList("gummy-pane");
+            factsDetailsView.AddToClassList("gummy-fdv");
+            
 
             tablePane.Add(tablePaneSearchbar);
             tablePane.Add(tablesListView);

@@ -17,6 +17,7 @@ namespace Gummy.Editor
     {
 
         bool openPopup;
+        private const string EMPTY_KEYWORD = "(Empty Reference)";
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
@@ -34,10 +35,26 @@ namespace Gummy.Editor
 
         private VisualElement BuildUI(VisualElement root, SerializedProperty property)
         {
+            property.serializedObject.Update();
+            var fieldData = fieldInfo.GetCustomAttributes(false);
+            GummyEntryFilterAttribute attributeInfo = null;
+            foreach (object atr in fieldData)
+            {
+                if (atr as GummyEntryFilterAttribute != null)
+                {
+                    attributeInfo = (GummyEntryFilterAttribute)atr;
+                }
+            }
+
             var popField = (DropdownField)root;
             var idProp = property.FindPropertyRelative("id");
             var id = idProp.intValue;
             Label title = new(property.displayName);
+
+            if(attributeInfo != null && !attributeInfo.AllowEmpty && id == 0) {
+                Debug.LogError($"[Gummy] Reference is not allowed to be empty for property: {property.displayName}");
+            }
+
 
             var target = popField.Q<VisualElement>(className: "unity-base-popup-field__input");
             target.pickingMode = PickingMode.Position;
@@ -46,13 +63,15 @@ namespace Gummy.Editor
             // var ve = popField.Q<VisualElement>(className: "unity-base-popup-field__input");
             // ve.style.width = 
             popField.label = property.displayName;
-            if(id == 0) {
-                popField.value = "(Empty Reference)";
+            if (
+                idProp.intValue != 0 
+                && GummyUtil.database.GetTableNameFromID(idProp.intValue, out var name) 
+                && GummyUtil.database.GetEntryFromID(idProp.intValue, out var entry)
+            ) {
+                popField.value = $"{name}/{entry.key}";
             } else {
-                if (GummyUtil.database.GetTableNameFromID(id, out var name) && GummyUtil.database.GetEntryFromID(id, out var entry))
-                {
-                    popField.value = $"{name}/{entry.key}";
-                }
+                popField.value = EMPTY_KEYWORD;
+                idProp.intValue = 0;
             }
 
             target.AddManipulator(new Clickable(evt => {
@@ -60,13 +79,17 @@ namespace Gummy.Editor
                 UnityEditor.PopupWindow.Show(box.worldBound, new EntriesPopupContent((int id) => {
                     property.serializedObject.Update();
                     GummyUtil.database.RequireLookup();
-                    if (GummyUtil.database.GetTableNameFromID(id, out var name) && GummyUtil.database.GetEntryFromID(id, out var entry))
+                    if(idProp.intValue == id) {
+                        idProp.intValue = 0;
+                        popField.value = EMPTY_KEYWORD;
+                        property.serializedObject.ApplyModifiedProperties();
+                    } else if (GummyUtil.database.GetTableNameFromID(id, out var name) && GummyUtil.database.GetEntryFromID(id, out var entry))
                     {
                         popField.value = $"{name}/{entry.key}";
                         idProp.intValue = id;
                         property.serializedObject.ApplyModifiedProperties();
                     }
-                }));
+                }, attributeInfo));
             }));
 
             return root;

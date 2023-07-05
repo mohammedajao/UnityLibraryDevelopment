@@ -71,28 +71,28 @@ public class EntriesPopupContent : PopupWindowContent
         var root = editorWindow.rootVisualElement;
         root.styleSheets.Add(mainSheet);
 
-        var tableList = new TreeView();
+        // var tableList = new TreeView();
 
-        Action<IEnumerable<int>> onSelectionChanged = selectedIndices =>
-        {
-            if (!selectedIndices.Any())
-                return;
-            var sampleItem = tableList.GetItemDataForIndex<IGummyCollectionOrEntries>(selectedIndices.First());
-            if(sampleItem.GetType() == typeof(EntryData)) {
-                var entryInfo = (EntryData)sampleItem;
-                callback(entryInfo.entryID);
-            }
-        };
+        // Action<IEnumerable<int>> onSelectionChanged = selectedIndices =>
+        // {
+        //     if (!selectedIndices.Any())
+        //         return;
+        //     var sampleItem = tableList.GetItemDataForIndex<IGummyCollectionOrEntries>(selectedIndices.First());
+        //     if(sampleItem.GetType() == typeof(EntryData)) {
+        //         var entryInfo = (EntryData)sampleItem;
+        //         callback(entryInfo.entryID);
+        //     }
+        // };
 
-        tableList.SetRootItems(treeRoots);
-        tableList.makeItem = () => new Label();
-        tableList.bindItem = (item, index) => { 
-            var title = item.Q<Label>();
-            title.text = tableList.GetItemDataForIndex<IGummyCollectionOrEntries>(index).name;
-        };
-        tableList.selectedIndicesChanged += onSelectionChanged;
-        tableList.showAlternatingRowBackgrounds = AlternatingRowBackground.All;
-        root.Add(tableList);
+        // tableList.SetRootItems(treeRoots);
+        // tableList.makeItem = () => new Label();
+        // tableList.bindItem = (item, index) => { 
+        //     var title = item.Q<Label>();
+        //     title.text = tableList.GetItemDataForIndex<IGummyCollectionOrEntries>(index).name;
+        // };
+        // tableList.selectedIndicesChanged += onSelectionChanged;
+        // tableList.showAlternatingRowBackgrounds = AlternatingRowBackground.All;
+        // root.Add(tableList);
     }
 
     protected static readonly List<GummyCollectionData> gcGroupData = new List<GummyCollectionData>();

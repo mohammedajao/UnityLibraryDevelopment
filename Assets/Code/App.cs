@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TimeWizard.Core;
 using TimeWizard.Persistence;
 using TimeWizard;
+using Gummy.Shared;
 
 public interface AppComponent
 {

@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 644904038}
   - component: {fileID: 644904041}
   - component: {fileID: 644904042}
+  - component: {fileID: 644904043}
   m_Layer: 0
   m_Name: PositionalStoreTest
   m_TagString: Untagged
@@ -294,7 +295,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644904036}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -342,7 +343,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -438,6 +439,23 @@ MonoBehaviour:
   speaker:
     id: -2115254343
   Speakers: {fileID: 11400000, guid: b9e228d81375f6049b47c0ed2b50c869, type: 2}
+--- !u!114 &644904043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644904036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ffe5159f3e18e4bbbef613fda14c7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  theEvent:
+    eventReference:
+      id: 904687730
+  provider: {fileID: 11400000, guid: 5edd1ffdf6644b848b74bd3651f4cfaa, type: 2}
+  eventBus: {fileID: 11400000, guid: 5e428c4daf7c60d4e9d45092b782c7d7, type: 2}
 --- !u!1 &793570733
 GameObject:
   m_ObjectHideFlags: 0

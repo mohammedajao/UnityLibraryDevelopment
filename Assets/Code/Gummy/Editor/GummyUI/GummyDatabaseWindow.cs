@@ -75,13 +75,16 @@ namespace Gummy.Editor
         }
 
         public ListView CreateGummyTablesListView() {
+            serializedDatabase.Update();
             tableListView = new ListView();
             filteredTables = database.tables;
             tableListView.selectedIndex = _selectedTableIndex;
             tableListView.makeItem = () => HandleTableViewItemCreated();
             tableListView.bindItem = (item, index) => {
+                if(filteredTables[index] == null) return;
                 var title = item.Q<TextField>();
                 serializedCurrentTable = new SerializedObject(filteredTables[index]);
+                serializedCurrentTable.Update();
                 var sTableNameProperty = serializedCurrentTable.FindProperty("Name");
                 title.BindProperty(sTableNameProperty);
                 // title.text = filteredTables[index].Name;
@@ -201,6 +204,7 @@ namespace Gummy.Editor
 
         public void HandleEntryViewBind(VisualElement root, int index, List<GummyBaseEntry> entries, SerializedProperty property, ListView visualList)
         {
+            serializedCurrentTable.Update();
             property.serializedObject.Update();
             var title = (TextField)root.Q("Entry Title");
             var valueDisplay = (Label)root.Q("Entry Value");
@@ -480,6 +484,7 @@ namespace Gummy.Editor
         public void CreateGUI()
         {
             if(database == null) return;
+            serializedDatabase.Update();
             var splitView = new TwoPaneSplitView(0, 250, TwoPaneSplitViewOrientation.Horizontal);
             var tablePane = new VisualElement();
             var tablePaneSearchbar = CreateSearchbarSection();
@@ -490,7 +495,42 @@ namespace Gummy.Editor
             factsPane = new VisualElement();
             factsDetailsView = new VisualElement();
             factsDetailsView.style.overflow = Overflow.Hidden;
+            var tablesPaneButtonRow = new VisualElement();
+
+            var tablesAddButtonTexture = EditorGUIUtility.IconContent("Toolbar Plus").image;
+            var tablesRemoveButtonTexture = EditorGUIUtility.IconContent("Toolbar Minus").image;
+            var tablesAddButton = new VisualElement();
+            var tablesRemoveButton = new VisualElement();
+            tablesAddButton.Add(new Image { image = tablesAddButtonTexture });
+            tablesRemoveButton.Add(new Image { image = tablesRemoveButtonTexture });
             var tablesListView = CreateGummyTablesListView();
+
+            // var gummyCollectionTypes = AppDomain.CurrentDomain.GetAssemblies()
+            //                             .SelectMany(domainAssembly => domainAssembly.GetTypes())
+            //                             .Where(type => typeof(GummyCollection).IsAssignableFrom(type))
+            //                             .ToArray();
+
+            // tablesAddButton.AddManipulator(new ContextualMenuManipulator((ContextualMenuPopulateEvent evt) => {
+            //     foreach(Type type in gummyCollectionTypes) {
+            //         evt.menu.AppendAction("Create/" + type.Name, (e) => {
+            //             var newTable = (GummyCollection)ScriptableObject.CreateInstance(type);
+            //             database.tables.Add(newTable);
+            //             newTable.Setup(database);
+            //             newTable.Name = $"<New {type.Name}>";
+            //             // EditorUtility.SetDirty(newTable);
+            //             // serializedDatabase.Update();
+            //             serializedDatabase.ApplyModifiedProperties();
+            //             serializedDatabase.Update();
+            //         });
+            //     }
+            // }));
+
+            tablePane.AddManipulator(new ContextualMenuManipulator((ContextualMenuPopulateEvent evt) => {
+                evt.menu.AppendAction("Refresh", (e) => {
+                    serializedDatabase.Update();
+                    tableListView.Rebuild();
+                });
+            }));
 
             tableSearchbar.RegisterCallback<ChangeEvent<string>>(e => {
                 currentTableSearchValue = (e.target as ToolbarSearchField).value;
@@ -498,12 +538,18 @@ namespace Gummy.Editor
                 tablesListView.Rebuild();
             });
 
+            tablesPaneButtonRow.AddToClassList("gummy-tables-button-toolbar");
+            tablePaneSearchbar.AddToClassList("gummy-pane-searchbar");
             tablePane.AddToClassList("gummy-pane");
             factsPane.AddToClassList("gummy-pane");
             factsDetailsView.AddToClassList("gummy-fdv");
-            
 
+            tablesPaneButtonRow.Add(tablesAddButton);
+            tablesPaneButtonRow.Add(tablesRemoveButton);
+            
+            // tablePaneSearchbar.Add(tablesPaneButtonRow);
             tablePane.Add(tablePaneSearchbar);
+            // tablePane.Add(tablesPaneButtonRow);
             tablePane.Add(tablesListView);
         
             splitView.Add(tablePane);

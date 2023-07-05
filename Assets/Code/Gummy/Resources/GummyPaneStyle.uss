@@ -50,3 +50,34 @@ VisualElement {
     background-color: var(--unity-colors-input_field-background);
     border-width: 1px 1px 1px 1px;
 }
+
+.gummy-tables-button-toolbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0px 0px 0px 0px;
+}
+
+.gummy-tables-button-toolbar VisualElement:hover {
+    background-color: var(--unity-colors-input_field-background);
+}
+
+.gummy-tables-button-toolbar VisualElement {
+    padding: 3px 3px 3px 3px;
+    flex-grow: 1;
+}
+
+.gummy-pane-searchbar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.gummy-pane-searchbar ToolbarSearchField {
+    flex-shrink: 1;
+}
+
+.gummy-pane-searchbar > * {
+    /* flex-shrink: 1; */
+}

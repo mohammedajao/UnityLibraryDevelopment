@@ -97,6 +97,7 @@ namespace Gummy.Shared
                     if(!dirtyTables.ContainsKey(table.Name)) dirtyTables.Add(table.Name, table);
                 } else if(_setupTables.ContainsValue(table)) {
                     foreach(var kvp in _setupTables) {
+                        if(kvp.Key == null) continue;
                         if(kvp.Value == table) {
                             _setupTables.Remove(kvp.Key);
                             _setupTables[table.Name] = table;
@@ -205,8 +206,12 @@ namespace Gummy.Shared
         private void CreateLookupIfNecessary(bool force = false)
         {
             if(_requireCreateLookup || force) {
-                foreach(var table in tables)
+                foreach(var table in tables.ToList())
                 {
+                    if(table == null || table.events == null) {
+                        tables.Remove(table);
+                        continue;
+                    }
                     foreach(var eventEntry in table.events)
                     {
                         _eventLookup[eventEntry.id] = eventEntry;

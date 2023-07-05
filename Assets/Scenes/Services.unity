@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1367198703}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theEvent:
-    id: -1212866660
+    id: -532845783
   eventBus: {fileID: 11400000, guid: 5e428c4daf7c60d4e9d45092b782c7d7, type: 2}
   provider: {fileID: 11400000, guid: 5edd1ffdf6644b848b74bd3651f4cfaa, type: 2}
   jumpStopwatch:

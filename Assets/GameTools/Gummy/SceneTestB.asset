@@ -17,13 +17,18 @@ MonoBehaviour:
   - rid: 2776060618872979458
   - rid: 5085853762898362369
   rules:
-  - rid: 5085853755287273472
   - rid: 5085853762898362368
   - rid: 5085853765612339201
   - rid: 5085853798605258753
+  - rid: 5085853798605258765
+  - rid: 5085853798605258766
+  - rid: 5085853798605258767
+  - rid: 5085853798605258768
   events:
   - rid: 2776060618872979460
   - rid: 5085853798605258752
+  - rid: 5085853798605258763
+  - rid: 5085853798605258769
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
     id: -50106142
@@ -50,25 +55,6 @@ MonoBehaviour:
         once: 0
         criteria: []
         modifications: []
-    - rid: 5085853755287273472
-      type: {class: GummyRuleEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
-      data:
-        id: -1583058097
-        key: tutorial_1
-        scope:
-          id: 0
-        once: 0
-        criteria: []
-        modifications: []
-        isCancellable: 0
-        padding: 0
-        delay: 0
-        triggeredBy:
-          id: 0
-        triggers:
-          id: 0
-        onStart: []
-        onEnd: []
     - rid: 5085853762898362368
       type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
       data:
@@ -81,7 +67,7 @@ MonoBehaviour:
         - reference:
             id: -2115254343
           mode: 0
-          comparand: 6
+          comparand: 0
         modifications:
         - reference:
             id: -2115254343
@@ -124,12 +110,12 @@ MonoBehaviour:
         scope:
           id: 0
         once: 0
-        criteria: []
-        modifications:
+        criteria:
         - reference:
-            id: -635599589
-          mode: 1
-          number: 20
+            id: -2115254343
+          mode: 0
+          comparand: 6
+        modifications: []
         isCancellable: 0
         padding: 0
         delay: 0
@@ -162,11 +148,7 @@ MonoBehaviour:
           id: 0
         once: 0
         criteria: []
-        modifications:
-        - reference:
-            id: -1330552686
-          mode: 0
-          number: 5
+        modifications: []
         isCancellable: 0
         padding: 0
         delay: 0
@@ -180,3 +162,151 @@ MonoBehaviour:
         speaker:
           id: -2115254343
         talkingSpeed: 0
+    - rid: 5085853798605258763
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 904687730
+        key: on_touch
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []
+    - rid: 5085853798605258765
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: 2134674769
+        key: jumpStart
+        scope:
+          id: 0
+        once: 1
+        criteria:
+        - reference:
+            id: -1726782814
+          mode: 0
+          comparand: 0
+        - reference:
+            id: -1212866660
+          mode: 0
+          comparand: 10
+        modifications:
+        - reference:
+            id: 302951575
+          mode: 1
+          number: 1
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 904687730
+        triggers:
+          id: 302951575
+        onStart: []
+        onEnd: []
+        text: Nice jump there kid
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853798605258766
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: -1726782814
+        key: jumpStart2
+        scope:
+          id: 0
+        once: 1
+        criteria:
+        - reference:
+            id: 2134674769
+          mode: 0
+          comparand: 0
+        - reference:
+            id: -1212866660
+          mode: 0
+          comparand: 9
+        modifications:
+        - reference:
+            id: 302951575
+          mode: 1
+          number: 1
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 904687730
+        triggers:
+          id: 302951575
+        onStart: []
+        onEnd: []
+        text: Maybe not the best jumps but please do a better
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853798605258767
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: 395193030
+        key: jump_1
+        scope:
+          id: 0
+        once: 1
+        criteria:
+        - reference:
+            id: 302951575
+          mode: 0
+          comparand: 1
+        modifications:
+        - reference:
+            id: 302951575
+          mode: 1
+          number: 2
+        isCancellable: 0
+        padding: 0
+        delay: 2
+        triggeredBy:
+          id: 302951575
+        triggers:
+          id: 302951575
+        onStart: []
+        onEnd: []
+        text: Ok, you've jumped quite well
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853798605258768
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: 2141216615
+        key: jump_2
+        scope:
+          id: 0
+        once: 0
+        criteria:
+        - reference:
+            id: 302951575
+          mode: 0
+          comparand: 2
+        modifications: []
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 302951575
+        triggers:
+          id: 0
+        onStart: []
+        onEnd: []
+        text: Final jump review
+        speaker:
+          id: -2115254343
+        talkingSpeed: 0
+    - rid: 5085853798605258769
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 302951575
+        key: jump_talk
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []

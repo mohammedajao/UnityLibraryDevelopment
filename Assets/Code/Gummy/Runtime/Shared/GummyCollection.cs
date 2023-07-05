@@ -9,7 +9,7 @@ namespace Gummy.Shared
     [Serializable]
     public class GummyCollection : ScriptableObject
     {
-        public string Name;
+        public string Name = Guid.NewGuid().ToString();
         // I would probably have a member variable to hold the database object given
         [SerializeReference] public List<GummyFactEntry> facts = new();
         [SerializeReference] public List<GummyRuleEntry> rules = new();

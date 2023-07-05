@@ -18,6 +18,8 @@ MonoBehaviour:
   tables:
   - {fileID: 11400000, guid: 296164ea8efb43243913f3dfb9af7892, type: 2}
   - {fileID: 11400000, guid: 387cc94776e979e4584ac052739396fb, type: 2}
+  - {fileID: 11400000, guid: 0e2ca82965ae6ee40947083984b4167e, type: 2}
+  - {fileID: 11400000, guid: 547abe92115879a4493d164105c19535, type: 2}
   _setupTables:
     rid: 2776060201175089152
   dirtyTables:
@@ -33,7 +35,13 @@ MonoBehaviour:
           value: {fileID: 11400000, guid: 296164ea8efb43243913f3dfb9af7892, type: 2}
         - key: SceneTestC
           value: {fileID: 11400000, guid: 387cc94776e979e4584ac052739396fb, type: 2}
+        - key: Speakers
+          value: {fileID: 11400000, guid: 0e2ca82965ae6ee40947083984b4167e, type: 2}
+        - key: 0008cb8d-737f-4226-aff8-cd516c685539
+          value: {fileID: 11400000, guid: 547abe92115879a4493d164105c19535, type: 2}
     - rid: 2776060228051664897
       type: {class: StringGummyCollectionMap, ns: Gummy.Shared, asm: Assembly-CSharp}
       data:
-        entries: []
+        entries:
+        - key: 0008cb8d-737f-4226-aff8-cd516c685539
+          value: {fileID: 11400000, guid: 547abe92115879a4493d164105c19535, type: 2}

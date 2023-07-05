@@ -2,36 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuntimeWorker : MonoBehaviour {
-    public RuntimeWorkerSet WorkerSet;
-
-    private void OnDisable() {
-        WorkerSet.RemoveWorker();
-    }
-}
-
-[CreateAssetMenu(fileName = "RuntimeWorkerSet", menuName = "Gummy/RuntimeWorker")]
-public class RuntimeWorkerSet : ScriptableObject
+namespace Gummy.Shared
 {
-    private GameObject Worker;
-
-    public void BindWorker(GameObject worker)
+    [CreateAssetMenu(fileName = "RuntimeWorkerSet", menuName = "Gummy/RuntimeWorker")]
+    public class RuntimeWorkerSet : ScriptableObject
     {
-        this.Worker = worker;
-        this.Worker.AddComponent<RuntimeWorker>();
-        RuntimeWorker component = this.Worker.GetComponent<RuntimeWorker>();
-        component.WorkerSet = this;
-    }
+        private GameObject Worker;
 
-    // #nullable
-    public RuntimeWorker GetWorker()
-    {
-        if(Worker != null) return this.Worker.GetComponent<RuntimeWorker>();
-        return null;
-    }
+        public void BindWorker(GameObject worker)
+        {
+            this.Worker = worker;
+            this.Worker.AddComponent<RuntimeWorker>();
+            RuntimeWorker component = this.Worker.GetComponent<RuntimeWorker>();
+            component.WorkerSet = this;
+        }
 
-    public void RemoveWorker()
-    {
-        Worker = null;
+        // #nullable
+        public RuntimeWorker GetWorker()
+        {
+            if(Worker != null) return this.Worker.GetComponent<RuntimeWorker>();
+            return null;
+        }
+
+        public void RemoveWorker()
+        {
+            Worker = null;
+        }
     }
 }

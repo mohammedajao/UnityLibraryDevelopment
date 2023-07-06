@@ -15,12 +15,12 @@ public class EntriesPopup : EditorWindow
         window.Show();
     }
 
-    // public void CreateGUI()
-    // {
-    //     VisualElement root = rootVisualElement;
-    //     Label label = new Label("TestasDSSADs");
-    //     root.Add(label);
-    // }
+    public void CreateGUI()
+    {
+        VisualElement root = rootVisualElement;
+        Label label = new Label("TestasDSSADs");
+        root.Add(label);
+    }
 
     Rect buttonRect;
     void OnGUI() {

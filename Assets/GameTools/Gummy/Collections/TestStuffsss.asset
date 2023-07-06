@@ -15,10 +15,21 @@ MonoBehaviour:
   Name: d357505e-e4b2-44f2-a023-ad971076fa93
   facts: []
   rules: []
-  events: []
-  database: {fileID: 0}
+  events:
+  - rid: 5085853843030016001
+  database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
-    id: 0
+    id: -286903715
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 5085853843030016001
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -286903715
+        key: on_enter
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []

@@ -9,6 +9,5 @@ namespace Gummy.Entries
     [Serializable]
     public class GummyScopeEntry : GummyFactEntry
     {
-        public override GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.ScopeDescriptor;
     }
 }

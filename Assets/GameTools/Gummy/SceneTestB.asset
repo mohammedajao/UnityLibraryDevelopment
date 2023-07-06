@@ -15,7 +15,6 @@ MonoBehaviour:
   Name: SceneTestC
   facts:
   - rid: 2776060618872979458
-  - rid: 5085853762898362369
   rules:
   - rid: 5085853762898362368
   - rid: 5085853765612339201
@@ -24,6 +23,7 @@ MonoBehaviour:
   - rid: 5085853798605258766
   - rid: 5085853798605258767
   - rid: 5085853798605258768
+  - rid: 5085853845169635329
   events:
   - rid: 2776060618872979460
   - rid: 5085853798605258752
@@ -68,6 +68,10 @@ MonoBehaviour:
             id: -2115254343
           mode: 0
           comparand: 0
+        - reference:
+            id: 2071436957
+          mode: 0
+          comparand: 1
         modifications:
         - reference:
             id: -2115254343
@@ -90,18 +94,8 @@ MonoBehaviour:
 
 '
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
-    - rid: 5085853762898362369
-      type: {class: GummyFactEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
-      data:
-        id: -2115254343
-        key: guide
-        scope:
-          id: 0
-        once: 0
-        criteria: []
-        modifications: []
     - rid: 5085853765612339201
       type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
       data:
@@ -112,9 +106,13 @@ MonoBehaviour:
         once: 0
         criteria:
         - reference:
-            id: -2115254343
+            id: -1212866660
           mode: 0
           comparand: 6
+        - reference:
+            id: 2071436957
+          mode: 0
+          comparand: 1
         modifications: []
         isCancellable: 0
         padding: 0
@@ -127,7 +125,7 @@ MonoBehaviour:
         onEnd: []
         text: Try it first, then come to me!
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
     - rid: 5085853798605258752
       type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
@@ -147,7 +145,11 @@ MonoBehaviour:
         scope:
           id: 0
         once: 0
-        criteria: []
+        criteria:
+        - reference:
+            id: 2071436957
+          mode: 0
+          comparand: 1
         modifications: []
         isCancellable: 0
         padding: 0
@@ -160,7 +162,7 @@ MonoBehaviour:
         onEnd: []
         text: Wow, this is epic! You have a chain of blackboard contextual events!
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
     - rid: 5085853798605258763
       type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
@@ -187,15 +189,19 @@ MonoBehaviour:
           comparand: 0
         - reference:
             id: -1212866660
+          mode: 2
+          comparand: 0
+        - reference:
+            id: 2071436957
           mode: 0
-          comparand: 10
+          comparand: 1
         modifications:
         - reference:
             id: 302951575
           mode: 1
           number: 1
         isCancellable: 0
-        padding: 0
+        padding: 10
         delay: 0
         triggeredBy:
           id: 904687730
@@ -203,9 +209,9 @@ MonoBehaviour:
           id: 302951575
         onStart: []
         onEnd: []
-        text: Nice jump there kid
+        text: Nice jump there kiddo
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
     - rid: 5085853798605258766
       type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
@@ -214,23 +220,27 @@ MonoBehaviour:
         key: jumpStart2
         scope:
           id: 0
-        once: 1
+        once: 0
         criteria:
         - reference:
             id: 2134674769
           mode: 0
           comparand: 0
         - reference:
-            id: -1212866660
+            id: 2071436957
           mode: 0
-          comparand: 9
+          comparand: 1
+        - reference:
+            id: -1212866660
+          mode: 4
+          comparand: 10
         modifications:
         - reference:
             id: 302951575
           mode: 1
           number: 1
         isCancellable: 0
-        padding: 0
+        padding: 5
         delay: 0
         triggeredBy:
           id: 904687730
@@ -240,7 +250,7 @@ MonoBehaviour:
         onEnd: []
         text: Maybe not the best jumps but please do a better
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
     - rid: 5085853798605258767
       type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
@@ -253,6 +263,10 @@ MonoBehaviour:
         criteria:
         - reference:
             id: 302951575
+          mode: 0
+          comparand: 1
+        - reference:
+            id: -574444032
           mode: 0
           comparand: 1
         modifications:
@@ -269,9 +283,9 @@ MonoBehaviour:
           id: 302951575
         onStart: []
         onEnd: []
-        text: Ok, you've jumped quite well
+        text: Thanks Mr.Guide. How can I jump better?
         speaker:
-          id: -2115254343
+          id: -574444032
         talkingSpeed: 0
     - rid: 5085853798605258768
       type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
@@ -286,19 +300,27 @@ MonoBehaviour:
             id: 302951575
           mode: 0
           comparand: 2
-        modifications: []
+        - reference:
+            id: 2071436957
+          mode: 0
+          comparand: 1
+        modifications:
+        - reference:
+            id: 302951575
+          mode: 1
+          number: 3
         isCancellable: 0
         padding: 0
-        delay: 0
+        delay: 2
         triggeredBy:
           id: 302951575
         triggers:
-          id: 0
+          id: 302951575
         onStart: []
         onEnd: []
-        text: Final jump review
+        text: I'll do a final jump review later. Chill for now
         speaker:
-          id: -2115254343
+          id: 2071436957
         talkingSpeed: 0
     - rid: 5085853798605258769
       type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
@@ -310,3 +332,30 @@ MonoBehaviour:
         once: 0
         criteria: []
         modifications: []
+    - rid: 5085853845169635329
+      type: {class: DialogueEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: -501120820
+        key: jump_3
+        scope:
+          id: 0
+        once: 0
+        criteria:
+        - reference:
+            id: 302951575
+          mode: 0
+          comparand: 3
+        modifications: []
+        isCancellable: 0
+        padding: 0
+        delay: 0
+        triggeredBy:
+          id: 302951575
+        triggers:
+          id: 0
+        onStart: []
+        onEnd: []
+        text: :D
+        speaker:
+          id: 2071436957
+        talkingSpeed: 0

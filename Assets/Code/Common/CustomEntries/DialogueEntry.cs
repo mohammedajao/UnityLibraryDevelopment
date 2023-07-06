@@ -8,6 +8,8 @@ public class DialogueEntry : GummyRuleEntry
 {
     [TextAreaAttribute]
     public string text;
+
+    [GummyEntryFilter(EntryType = GummyEntryFilterType.Fact, TableName = "Speakers")]
     public GummyEntryReference speaker;
     public DialogueSpeed talkingSpeed;
 
@@ -24,7 +26,6 @@ public class DialogueEntry : GummyRuleEntry
 
     public override IEnumerator Execute()
     {
-        yield return base.Execute();
         yield return Run();
         yield break;
     }

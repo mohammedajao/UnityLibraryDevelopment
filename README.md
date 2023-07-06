@@ -43,17 +43,23 @@ In essence, if you are about to hit Play mode or exit it, make sure your inspect
 ***Known Bug 2***
 Searching for entries doesn't work. This isn't a bug. I just didn't code it. I wanted to focus on other projects since the main features here are done.
 
-***Known Bug 3***
-Adding a table scriptable object to the database in the inspector doesn't automatically run Setup. 
+Also, the dialogue bubble bug within this test scene in regards to two dialogue events running in parallel is not a bug. It's better for the developer to handle this case in my opinion. Perhaps you want it to run but have a more important dialogue running so you don't override or you do want to interrupt. That flow should be up to you.
+
+# F.A.Q
+
+*Adding a table scriptable object to the database in the inspector doesn't automatically run Setup.*
 
 Not really a bug. Right click the tables pane or an empty area in it and click refresh. The table list will update and you should get your table.
 
 Also, next time you hit play or scripts reload, the table will be set up. 
 
-***Known Bug 4***
-Not a bug. Current values of entries aren't under the umbrella of a single context. That's by design. Say entryA is under a temporary context (EmptyBlackboard) and entryB is under a persistent context served by the provider but also has a temporary contextual value, the database is designed to show the value of the most recently used context.
+*Entry values don't reflect the current active context*
+Current values of entries aren't under the umbrella of a single context. That's by design. Say entryA is under a temporary context (EmptyBlackboard) and entryB is under a persistent context served by the provider but also has a temporary contextual value, the database is designed to show the value of the most recently used context. It can't assume what the current context is because that'd require hooking onto the provider which should be a lightweight one-way interface.
 
 Thus if ContextA is used after ContextZ for entryB, entryB's value in ContextA will be shown in the database.
+
+*There's a lot of boiler plate code it seems with the speaker object runtime sets*
+Yes. You can make your own wrapper to simplify the boilerplate based on your own provider. I'm showcasing the required objects at play here.
 
 # About
 

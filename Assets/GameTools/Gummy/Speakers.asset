@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Speakers
   m_EditorClassIdentifier: 
   Name: Speakers
-  facts: []
+  facts:
+  - rid: 5085853845169635328
+  - rid: 5085853849851527168
   rules: []
   events:
   - rid: 5085853817562464256
+  - rid: 5085853843636355073
+  - rid: 5085853843636355074
+  - rid: 5085853849851527169
+  - rid: 5085853849851527170
   database: {fileID: 11400000, guid: 1f9532c7167536845a5e68da0a2c7c3a, type: 2}
   enterEvent:
     id: 16948856
@@ -33,3 +39,81 @@ MonoBehaviour:
         once: 0
         criteria: []
         modifications: []
+    - rid: 5085853843636355073
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 513739712
+        key: register_guide
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: 2071436957
+          mode: 1
+          number: 1
+    - rid: 5085853843636355074
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: -1426978657
+        key: unregister_guide
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: 2071436957
+          mode: 1
+          number: 0
+    - rid: 5085853845169635328
+      type: {class: SpeakerEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: 2071436957
+        key: guide
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []
+        speakerName: Guide-kun
+    - rid: 5085853849851527168
+      type: {class: SpeakerEntry, ns: , asm: Assembly-CSharp}
+      data:
+        id: -574444032
+        key: protagonist
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications: []
+        speakerName: 
+    - rid: 5085853849851527169
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 408886620
+        key: register_protagonist
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: -574444032
+          mode: 1
+          number: 1
+    - rid: 5085853849851527170
+      type: {class: GummyEventEntry, ns: Gummy.Entries, asm: Assembly-CSharp}
+      data:
+        id: 838687980
+        key: unregister_protagonist
+        scope:
+          id: 0
+        once: 0
+        criteria: []
+        modifications:
+        - reference:
+            id: -574444032
+          mode: 1
+          number: 0

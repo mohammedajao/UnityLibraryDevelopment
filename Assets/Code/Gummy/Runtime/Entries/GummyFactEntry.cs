@@ -11,12 +11,12 @@ namespace Gummy.Entries
     {
         public override void AddToTable(GummyCollection collection)
         {
-            descriptor.AddToTable(collection, this);
+            collection.facts.Add(this);
         }
 
         public override void RemoveFromTable(GummyCollection collection)
         {
-            descriptor.RemoveFromTable(collection, this);
+            collection.facts.Remove(this);
         }
     }
 }

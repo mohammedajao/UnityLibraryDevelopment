@@ -10,16 +10,15 @@ namespace Gummy.Entries
     [Serializable]
     public class GummyEventEntry : GummyBaseEntry
     {
-        public override GummyRuntimeEntryDescriptor descriptor => GummyRuntimeEntryDescriptor.EventDescriptor;
 
         public override void AddToTable(GummyCollection collection)
         {
-            descriptor.AddToTable(collection, this);
+            collection.events.Add(this);
         }
 
         public override void RemoveFromTable(GummyCollection collection)
         {
-            descriptor.RemoveFromTable(collection, this);
+            collection.events.Remove(this);
         }
     }
 }

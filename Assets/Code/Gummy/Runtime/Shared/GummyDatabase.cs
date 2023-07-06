@@ -94,6 +94,7 @@ namespace Gummy.Shared
                 if(!(table is null) && !_setupTables.ContainsValue(table)) {
                     _setupTables.Add(table.Name, table);
                     table.Setup(this);
+                    EditorUtility.SetDirty(table);
                     if(!dirtyTables.ContainsKey(table.Name)) dirtyTables.Add(table.Name, table);
                 } else if(_setupTables.ContainsValue(table)) {
                     foreach(var kvp in _setupTables) {
@@ -238,7 +239,7 @@ namespace Gummy.Shared
                 List<int> ruleLookupkeys = new List<int>(_ruleLookup.Keys);
                 foreach(var key in ruleLookupkeys) {
                     var ruleList = _ruleLookup[key];
-                    _ruleLookup[key] = ruleList.OrderBy(rule => rule.Weight).ToList();
+                    _ruleLookup[key] = ruleList.OrderByDescending(rule => rule.Weight).ToList();
                 }
                 _requireCreateLookup = false;
             }

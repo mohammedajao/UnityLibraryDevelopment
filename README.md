@@ -6,6 +6,8 @@ Rules are the core of Gummy. They determine the logical flow of events and fact 
 Events are simply ids that are mapped to invokable callbacks.
 Facts are variables within our system. They're 32-bit integers mapped to some value within a blackboard.
 
+https://www.linkedin.com/feed/update/urn:li:activity:7104391180611637248?utm_source=share&utm_medium=member_desktop
+
 Data Flow Breakdown:
 - Blackboards are loaded from the save system
 - Provider maps scopes assigned to it to the proper blackboards

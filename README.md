@@ -27,8 +27,6 @@ Gummy is the focus of this repo but TimeWizard is a chunk-based save system in d
 **Why blackboards?**
 As dictionaries grow, they become slower. Thus, we want to apply our entries (facts, rules, or events) to blackboards (dictionaries mapping entry ids to values) so we have a small dictionary/blackboard size and have quick hashtable operations. 
 
-**How come the code doesn't work when I run the tool?**
-My project is set up to work with the tool. Check your project. 
 
 **Motivation**
 I made this mainly to learn. I saw this already developed by other users and built the rest based on their talks.

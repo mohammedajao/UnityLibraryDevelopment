@@ -49,7 +49,7 @@ Also, the dialogue bubble bug within this test scene in regards to two dialogue 
 
 *Adding a table scriptable object to the database in the inspector doesn't automatically run Setup.*
 
-Not really a bug. Right click the tables pane or an empty area in it and click refresh. The table list will update and you should get your table.
+Right click the tables pane or an empty area in it and click refresh. The table list will update and you should get your table. I have to wait for Unity's SO issues with VisualElements to be resolved to address this.
 
 Also, next time you hit play or scripts reload, the table will be set up. 
 

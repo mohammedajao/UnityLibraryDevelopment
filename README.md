@@ -18,10 +18,6 @@ Data Flow Breakdown:
 - A rules execution is an Enumerator and is overridable. Thus, onStart events are triggered immediately but onEnd events are triggered after execution
 - Facts, rules, and events have their values shown within the current blackboard contexts the provider holds
 
-# About TimeWizard
-
-Gummy is the focus of this repo but TimeWizard is a chunk-based save system in development with a focus on a better and perhaps customizable UI flow. I don't think I'll get to it, but it's a common system I used to get an easy in-editor/in-game save editor.
-
 # Design Decisions
 
 **Why blackboards?**
@@ -58,14 +54,11 @@ Current values of entries aren't under the umbrella of a single context. That's 
 
 Thus if ContextA is used after ContextZ for entryB, entryB's value in ContextA will be shown in the database.
 
-*There's a lot of boiler plate code it seems with the speaker object runtime sets*
-Yes. You can make your own wrapper to simplify the boilerplate based on your own provider. I'm showcasing the required objects at play here.
-
 # About
 
 This is an educational project. It is not representative of clean code or how to properly code. It is not reflective of my coding pratices either. This is not production-ready tool but I hope it serves as motivation for others, helps as a basis, and more importantly, it was a fun explorative journey for me to learn how to build this. 
 
-Unity's documentation is very lacking in guidance and the community isn't as educated on UI in its public spaces. Thus, a lot of my code came from looking at the source code for inspiration. And for my younger colleagues on my Github looking at this, remember it's important for things to work first. Clean up can happen later. Get it out there and working because nobody cares about how pretty it is on the inside.
+Unity's documentation is very lacking in guidance for VisualElements currently speaking and the community is/was new to it when creating this project. Thus, a lot of my code came from looking at the source code for inspiration.
 
 # Project Goals
 The goal of these libraries/frameworks are to offer strong decoupling of code and a clean data flow. It also aims to speed up logical control. TimeWizard aims to decouple and ramp up saving by handling what save data is actively referenced in memory, offer non-technical access to manipulating these saves, flow hooks, and allow the game to get saves from different environments.

@@ -61,9 +61,11 @@ This is an educational project. It is not representative of clean code or how to
 Unity's documentation is very lacking in guidance for VisualElements currently speaking and the community is/was new to it when creating this project. Thus, a lot of my code came from looking at the source code for inspiration.
 
 # Project Goals
-The goal of these libraries/frameworks are to offer strong decoupling of code and a clean data flow. It also aims to speed up logical control. TimeWizard aims to decouple and ramp up saving by handling what save data is actively referenced in memory, offer non-technical access to manipulating these saves, flow hooks, and allow the game to get saves from different environments.
+The goal of these libraries/frameworks are to offer strong decoupling of code and a clean data flow. It also aims to speed up logical control. TimeWizard (not yet developed) aims to decouple and ramp up saving by handling what save data is actively referenced in memory, offer non-technical access to manipulating these saves, flow hooks, and allow the game to get saves from different environments.
 
 Gummy is aimed at decoupling logic control and asynchronous logical events without the need to code. Thus a writer can work on dialogue in Gummy or a designer can use it to describe new actions/behaviours for AI. It's applications are pretty large.
+
+Currently using Chonks.net instead for Save System. Credit to them. I aim to build upon it in the future for a better UI and more secure, parallelized system.
 
 # Next Steps
 - Upload GameObjects and new tests that showcase the database working
